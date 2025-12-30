@@ -4,6 +4,23 @@ import torch.optim as optim
 from model import RevenueModel
 from utils import load_state_data
 
+from utils import load_client_data
+
+"""
+class StateClient(fl.client.NumPyClient):
+    def __init__(self, client_id):
+        self.X, self.y = load_client_data(client_id)
+
+
+        iid_clients = iid_split(df, 10)
+label_clients = label_skew_split(df, 10)
+quantity_clients = quantity_skew_split(df, ratios)
+
+
+set_client_data(label_clients)   # swap here
+
+        """
+
 class StateClient(fl.client.NumPyClient):
     def __init__(self, state_id):
         self.model = RevenueModel()
