@@ -4,6 +4,35 @@ Federated Learning Framework for Privacy-Preserving Budget Forecasting and Welfa
 
 ⸻
 
+## Current status (Phase 0)
+
+Honest snapshot of what runs today vs the proposal below:
+
+| Area | Status |
+|------|--------|
+| Synthetic GST panel (10 states, 2016–2024) | Implemented |
+| Centralized MLP baseline (train/test MSE) | Implemented |
+| Flower FedAvg **simulation** (10 state clients) | Implemented |
+| Features | `year`, `month`, `fiscal_deficit_pct`, `urban_ratio`, `gdp_growth_pct` (sgst/cgst shares excluded — they leak the target) |
+| LSTM / XGBoost forecasting | Not implemented |
+| Welfare leakage / anomaly detection | Not implemented |
+| Encrypted updates / DP / SecAgg | Not implemented |
+| Temporal forecast holdout (walk-forward) | Not yet (random 80/20 split in baseline only) |
+
+### Quickstart
+
+```bash
+python -m pip install -r requirements.txt
+python data-generator/generate_state_budget_gst.py
+cd fl_experiment
+python centralized_baseline.py
+python run_fl_simulation.py --rounds 3 --clients 10
+```
+
+Roadmap phases: **0** runnable FL core (this) → **1** temporal forecasting metrics → **2** non-IID comparison → **3** leakage task → **4** sector-agnostic adapters for other gov domains → **5** privacy / XAI.
+
+⸻
+
 1. Introduction & Motivation
 
 India’s public finance system operates in a federal structure, where financial data related to budget allocation, GST revenue, and welfare schemes is distributed across the Centre, States, and districts.
@@ -126,62 +155,7 @@ System Evaluation
 	4.	Research insights applicable to Indian budget planning and monitoring
 	5.	Foundation for 4th semester advanced auditing system
 
-5.2 Machine Learning Models
-	•	Revenue Forecasting:
-	•	LSTM
-	•	XGBoost
-	•	Welfare Leakage Detection:
-	•	Isolation Forest
-	•	Autoencoders
-
-5.3 Federated Learning Setup
-	•	FL framework: Flower / FedML
-	•	Aggregation: FedAvg
-	•	Evaluation under non-IID data distributions
-
 ⸻
-
-6. Dataset Description
-
-Due to restricted access to real fiscal data, the project will use:
-	•	Synthetic datasets modeled on:
-	•	GST revenue trends
-	•	State budget allocations
-	•	Welfare beneficiary statistics
-
-Dataset characteristics:
-	•	State-wise heterogeneity
-	•	Seasonal patterns
-	•	Controlled anomaly injection
-
-⸻
-
-7. Evaluation Metrics
-
-Revenue Forecasting
-	•	RMSE
-	•	MAE
-	•	MAPE
-
-Welfare Leakage Detection
-	•	Precision
-	•	Recall
-	•	F1-score
-	•	Anomaly detection rate
-
-System Evaluation
-	•	Communication overhead
-	•	Convergence rate
-	•	Privacy exposure analysis
-
-⸻
-
-8. Expected Outcomes
-	1.	A working federated learning prototype for public finance analytics
-	2.	Quantitative evidence showing FL effectiveness under non-IID fiscal data
-	3.	Demonstration of privacy-preserving governance intelligence
-	4.	Research insights applicable to Indian budget planning and monitoring
-	5.	Foundation for 4th semester advanced auditing system
 
 9. Tools & Technologies
 	•	Programming Language: Python

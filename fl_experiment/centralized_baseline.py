@@ -1,34 +1,42 @@
-import pandas as pd
+"""Centralized MLP baseline on pooled synthetic state GST data."""
+
+from pathlib import Path
+
 import torch
 import torch.optim as optim
+from sklearn.model_selection import train_test_split
+
 from model import RevenueModel
-from sklearn.preprocessing import StandardScaler
+from utils import FEATURE_COLS, TARGET_COL, load_dataframe, _to_tensors
 
-df = pd.read_csv("data/state_budget_gst.csv")
+df = load_dataframe()
+X_raw = df[FEATURE_COLS].values
+y_raw = df[TARGET_COL].values
 
-X = df[[
-    "sgst_share", "cgst_share",
-    "fiscal_deficit_pct",
-    "urban_ratio",
-    "gdp_growth_pct"
-]].values
+X_train_raw, X_test_raw, y_train_raw, y_test_raw = train_test_split(
+    X_raw, y_raw, test_size=0.2, random_state=42
+)
 
-y = df["gst_revenue"].values
-
-scaler = StandardScaler()
-X = scaler.fit_transform(X)
-
-X = torch.tensor(X, dtype=torch.float32)
-y = torch.tensor(y, dtype=torch.float32).view(-1, 1)
+X_train, y_train, scaler = _to_tensors(X_train_raw, y_train_raw, fit_scaler=True)
+X_test, y_test, _ = _to_tensors(X_test_raw, y_test_raw, fit_scaler=False, scaler=scaler)
 
 model = RevenueModel()
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 loss_fn = torch.nn.MSELoss()
 
 for epoch in range(50):
+    model.train()
     optimizer.zero_grad()
-    loss = loss_fn(model(X), y)
+    loss = loss_fn(model(X_train), y_train)
     loss.backward()
     optimizer.step()
 
-print("Centralized MSE:", loss.item())
+model.eval()
+with torch.no_grad():
+    train_mse = loss_fn(model(X_train), y_train).item()
+    test_mse = loss_fn(model(X_test), y_test).item()
+
+print(f"Centralized train MSE: {train_mse:.4f}")
+print(f"Centralized test MSE:  {test_mse:.4f}")
+print(f"Features: {FEATURE_COLS}")
+print(f"Data: {Path(__file__).resolve().parent / 'data' / 'state_budget_gst.csv'}")
