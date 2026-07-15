@@ -28,8 +28,8 @@ def weighted_average(metrics: List[Tuple[int, Metrics]]) -> Metrics:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Flower FL simulation (Phase 0)")
-    parser.add_argument("--rounds", type=int, default=5)
+    parser = argparse.ArgumentParser(description="Flower FL simulation (Phase 1 forecast)")
+    parser.add_argument("--rounds", type=int, default=10)
     parser.add_argument("--clients", type=int, default=10)
     parser.add_argument("--min-clients", type=int, default=5)
     args = parser.parse_args()
@@ -44,7 +44,7 @@ def main():
     )
 
     print(
-        f"Starting FedAvg simulation: {args.clients} clients, "
+        f"Starting FedAvg forecast simulation: {args.clients} clients, "
         f"{args.rounds} rounds, min_clients={args.min_clients}"
     )
     hist = start_simulation(
@@ -56,7 +56,9 @@ def main():
     )
     print("Simulation finished.")
     if hist.losses_distributed:
-        print("Final distributed loss:", hist.losses_distributed[-1])
+        print("Final distributed loss (test MSE):", hist.losses_distributed[-1])
+    if hist.metrics_distributed:
+        print("Final distributed metrics:", hist.metrics_distributed)
     return hist
 
 

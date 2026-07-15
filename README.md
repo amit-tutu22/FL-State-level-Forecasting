@@ -4,32 +4,60 @@ Federated Learning Framework for Privacy-Preserving Budget Forecasting and Welfa
 
 ⸻
 
-## Current status (Phase 0)
+## Current status (Phase 5)
 
 Honest snapshot of what runs today vs the proposal below:
 
 | Area | Status |
 |------|--------|
-| Synthetic GST panel (10 states, 2016–2024) | Implemented |
-| Centralized MLP baseline (train/test MSE) | Implemented |
-| Flower FedAvg **simulation** (10 state clients) | Implemented |
-| Features | `year`, `month`, `fiscal_deficit_pct`, `urban_ratio`, `gdp_growth_pct` (sgst/cgst shares excluded — they leak the target) |
-| LSTM / XGBoost forecasting | Not implemented |
-| Welfare leakage / anomaly detection | Not implemented |
-| Encrypted updates / DP / SecAgg | Not implemented |
-| Temporal forecast holdout (walk-forward) | Not yet (random 80/20 split in baseline only) |
+| GST + education sector forecast (TaskSpec) | Implemented |
+| Welfare leakage detection | Implemented |
+| **Threat model** (`fl_experiment/privacy/THREAT_MODEL.md`) | Implemented |
+| **Client-side DP on FedAvg updates** (clip + Gaussian noise) | Implemented |
+| **Privacy–accuracy sweep** (`run_phase5_privacy.py`) | Implemented |
+| Secure Aggregation / TLS | **Not implemented** (documented) |
+| Formal (ε, δ) certification-grade accounting | Approximate only |
+| LSTM / XGBoost | Not implemented |
+
+### Privacy (read this before citing “privacy-preserving”)
+
+- Simulation is local Ray — no network TLS.
+- Phase 5 DP = clipped noisy **parameter updates**, not encryption and not SecAgg.
+- ε from the sweep is a **rough composition estimate** for research communication.
 
 ### Quickstart
 
+**Important on Apple Silicon Homebrew:** default `python3` may be 3.14 with a broken `pyexpat` (`Symbol not found: _XML_SetAllocTrackerActivationThreshold`). Prefer Apple’s `/usr/bin/python3` or run `bash scripts/setup_venv.sh` (auto-picks a working interpreter).
+
 ```bash
-python -m pip install -r requirements.txt
-python data-generator/generate_state_budget_gst.py
+cd /path/to/FL-State-level-Forecasting
+
+# Easiest: auto-select working Python + install deps
+bash scripts/setup_venv.sh
+source .venv/bin/activate
+
+# Or manually with system Python (recommended if Homebrew 3.14 is broken):
+#   /usr/bin/python3 -m venv .venv
+#   source .venv/bin/activate
+#   python3 -m pip install -r requirements.txt
+
+# Generate data + run (use the venv interpreter)
+.venv/bin/python3 data-generator/generate_state_budget_gst.py
+.venv/bin/python3 data-generator/generate_welfare_leakage.py
+.venv/bin/python3 data-generator/generate_education_enrollment.py
 cd fl_experiment
-python centralized_baseline.py
-python run_fl_simulation.py --rounds 3 --clients 10
+../.venv/bin/python3 run_sector_forecast.py --all --rounds 3
+../.venv/bin/python3 run_phase5_privacy.py --sector public_finance_gst --rounds 3
 ```
 
-Roadmap phases: **0** runnable FL core (this) → **1** temporal forecasting metrics → **2** non-IID comparison → **3** leakage task → **4** sector-agnostic adapters for other gov domains → **5** privacy / XAI.
+Do **not** run `python3 -m pip install ...` with Homebrew 3.14 until that expat issue is fixed (`brew reinstall expat python@3.14` or switch to 3.11/3.12). Use the project `.venv` instead.
+Roadmap phases: **0–5 complete** for the research prototype arc (forecast + leakage + sectors + DP baseline).
+
+### Documentation
+
+- **Technical architecture (detailed):** [`docs/TECHNICAL_ARCHITECTURE.md`](docs/TECHNICAL_ARCHITECTURE.md) — product use cases, tech stack, data/ML/FL design, Phase 0–5 change log
+- **Threat model:** [`fl_experiment/privacy/THREAT_MODEL.md`](fl_experiment/privacy/THREAT_MODEL.md)
+- **Sector adapters:** [`fl_experiment/sectors/README.md`](fl_experiment/sectors/README.md)
 
 ⸻
 

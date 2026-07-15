@@ -1,0 +1,16 @@
+{
+  "sector_id": "public_finance_gst",
+  "display_name": "Public Finance — GST revenue forecast",
+  "task_type": "forecast",
+  "data_path": "data/state_budget_gst.csv",
+  "client_id_col": "state_id",
+  "time_cols": ["year", "month"],
+  "value_col": "gst_revenue",
+  "covariate_cols": ["fiscal_deficit_pct", "urban_ratio", "gdp_growth_pct"],
+  "lag_months": [1, 12],
+  "horizon": 1,
+  "residual_on_seasonal_lag": true,
+  "train_end_year": 2021,
+  "val_year": 2022,
+  "test_start_year": 2023
+}

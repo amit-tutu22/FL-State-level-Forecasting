@@ -16,10 +16,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Regenerate synthetic data
-        run: python data-generator/generate_state_budget_gst.py
+        run: |
+          python data-generator/generate_state_budget_gst.py
+          python data-generator/generate_welfare_leakage.py
+          python data-generator/generate_education_enrollment.py
       - name: Centralized baseline
         working-directory: fl_experiment
         run: python centralized_baseline.py
       - name: FL simulation (short)
         working-directory: fl_experiment
         run: python run_fl_simulation.py --rounds 1 --clients 10 --min-clients 5
+      - name: Phase 2 comparison (short)
+        working-directory: fl_experiment
+        run: python run_phase2_comparison.py --protocols by_state,iid --rounds 1 --local-epochs 2
+      - name: Phase 3 leakage (short)
+        working-directory: fl_experiment
+        run: python run_phase3_leakage.py --rounds 1 --local-epochs 2
+      - name: Phase 4 sectors (short)
+        working-directory: fl_experiment
+        run: python run_sector_forecast.py --all --rounds 1 --local-epochs 2
+      - name: Phase 5 privacy sweep (short)
+        working-directory: fl_experiment
+        run: python run_phase5_privacy.py --sector public_finance_gst --rounds 1 --local-epochs 1 --noise-multipliers 0,1.0

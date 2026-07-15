@@ -1,0 +1,16 @@
+{
+  "sector_id": "education_enrollment",
+  "display_name": "Education — school enrollment forecast",
+  "task_type": "forecast",
+  "data_path": "data/education_enrollment.csv",
+  "client_id_col": "state_id",
+  "time_cols": ["year", "month"],
+  "value_col": "enrollment_count",
+  "covariate_cols": ["teacher_ratio", "urban_ratio", "literacy_index"],
+  "lag_months": [1, 12],
+  "horizon": 1,
+  "residual_on_seasonal_lag": true,
+  "train_end_year": 2021,
+  "val_year": 2022,
+  "test_start_year": 2023
+}

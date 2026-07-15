@@ -6,3 +6,6 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+fl_experiment/results/_fl_partition_cache/
+fl_experiment/results/_fl_leakage_cache/
+fl_experiment/results/_fl_sector_cache/
