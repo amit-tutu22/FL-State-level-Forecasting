@@ -1,6 +1,7 @@
 import pandas as pd
 import torch
 from sklearn.preprocessing import StandardScaler
+import numpy as np
 
 """
 def load_state_data(state_id):
