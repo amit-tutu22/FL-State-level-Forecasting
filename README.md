@@ -9,11 +9,11 @@ The work follows the 8-month roadmap in [#30](https://github.com/amit-tutu22/FL-
 | Milestone | State |
 |---|---|
 | M1 — Dataset feasibility | Official GST, E-Way Bill and CPI pipeline acquired, audited and tested ([#13](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/13) closed; [#14](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/14) remaining items open) |
-| M2 — Forecasting baselines | Not started ([#15](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/15)–[#17](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/17)) |
-| M3 — Flower federated baselines | Flower startup repaired with one disjoint client per state ([#18](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/18)); FedAvg/FedProx benchmarks not started |
+| M2 — Forecasting baselines | Local per-state GRU implemented on fixed cutoffs ([#17](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/17)); rolling-origin protocol ([#15](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/15)) and seasonal naive/SARIMA ([#16](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/16)) not started |
+| M3 — Flower federated baselines | One disjoint client per state with the same GRU ([#18](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/18)); FedAvg/FedProx benchmarks not started |
 | M4 onwards — review, personalization, evaluation | Not started |
 
-`fl_experiment/` runs a FedAvg simulation over one client per state. So far it has run only on the legacy synthetic data from `data-generator/`, which is for software smoke tests and produces no thesis evidence. See [fl_experiment/README.md](fl_experiment/README.md).
+`fl_experiment/` trains a compact GRU locally per state and with Flower FedAvg (see [fl_experiment/README.md](fl_experiment/README.md)). The first real-panel run is recorded in [docs/experiments/2026-10-29-real-data-smoke.md](docs/experiments/2026-10-29-real-data-smoke.md). It covers 32 eligible states and validation only, using assumed-lag sensitivity inputs. The legacy synthetic data from `data-generator/` is for software smoke tests only.
 
 No forecasting results or privacy guarantees are claimed yet. Federation over public data is a simulation, not a deployed privacy mechanism.
 
@@ -57,13 +57,13 @@ Details: [docs/REAL_DATA_PIPELINE.md](docs/REAL_DATA_PIPELINE.md) and the [29 Oc
 ```text
 data_pipeline/          Official-source acquisition, normalization, geography mapping, panel joins, PDF checks
 tests/                  Offline tests with official regression fixtures
-docs/                   Pipeline guide, dated audits, archived proposal
-fl_experiment/          Flower FedAvg simulation, one disjoint client per state
+docs/                   Pipeline guide, dated audits, experiment records, archived proposal
+fl_experiment/          GRU forecaster: local per-state baseline and Flower FedAvg simulation
 data-generator/         Legacy synthetic data generator (smoke tests only)
 scripts/setup_venv.sh   Python 3.11 environment setup (--fl adds Flower/PyTorch)
 ```
 
-CI runs the pipeline tests (`data-pipeline.yml`), Pylint on `data_pipeline/` and `tests/` (`pylint.yml`), and Pylint, tests and a two-round ten-state simulation for `fl_experiment/` (`fl-smoke.yml`).
+CI runs the pipeline tests (`data-pipeline.yml`), Pylint on `data_pipeline/` and `tests/` (`pylint.yml`), and Pylint, tests, a two-round ten-state simulation and a local GRU run for `fl_experiment/` (`fl-smoke.yml`).
 
 ## License
 

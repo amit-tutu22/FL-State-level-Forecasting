@@ -63,8 +63,8 @@ def main():
     for client in clients:
         summary = client.summary()
         print(
-            f"  state {summary['state_id']}: train {summary['train']['rows']}, "
-            f"val {summary['val']['rows']}, test {summary['test']['rows']}"
+            f"  state {summary['state_id']}: windows train {summary['train']['windows']}, "
+            f"val {summary['val']['windows']}, test {summary['test']['windows']}"
         )
     if args.prepare_only:
         print(f"Client cache written to {cache}")

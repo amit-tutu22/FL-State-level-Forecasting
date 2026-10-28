@@ -100,8 +100,8 @@ class StateClientData:  # pylint: disable=too-many-instance-attributes
 
     @property
     def n_features(self):
-        """Number of model inputs."""
-        return int(self.x["train"].shape[1])
+        """Number of inputs per time step."""
+        return int(self.x["train"].shape[2])
 
     def decode(self, normalized):
         """Convert normalized log predictions back to INR crore."""
@@ -109,12 +109,12 @@ class StateClientData:  # pylint: disable=too-many-instance-attributes
         return np.expm1(values * self.y_std + self.y_mean)
 
     def summary(self):
-        """Counts and date ranges per split."""
+        """Window counts and target-month ranges per split."""
         return {
             "state_id": self.state_id,
             **{
                 split: {
-                    "rows": len(self.months[split]),
+                    "windows": len(self.months[split]),
                     "first": self.months[split][0] if self.months[split] else None,
                     "last": self.months[split][-1] if self.months[split] else None,
                 }
@@ -131,36 +131,86 @@ def _split_name(month, val_start, test_start):
     return "test"
 
 
-def _split_rows(rows, val_start, test_start):
-    """Group log-scaled inputs and targets by chronological split."""
+def window_targets(months, window):
+    """Target months whose `window` input months are all present (no gap is crossed)."""
+    present = set(months)
+    return [
+        month
+        for month in sorted(present)
+        if all(shift_month(month, -offset) in present for offset in range(window))
+    ]
+
+
+def _build_one(state, rows, val_start, test_start, window):
+    """Normalize with training-period rows, then stack gap-free input windows.
+
+    The window for target month m holds the input rows of target months
+    m-window+1 .. m; each row only uses information available at its own
+    forecast origin, so the whole window is known before m.
+    """
+    inputs = {month: _raw_inputs(features, month) for _, month, features, _ in rows}
+    targets = {month: math.log1p(target) for _, month, _, target in rows}
+    x_mean, x_std, y_mean, y_std = _training_scales(inputs, targets, val_start)
+
     months = {split: [] for split in SPLITS}
-    raw_x = {split: [] for split in SPLITS}
-    raw_y = {split: [] for split in SPLITS}
-    for _, month, features, target in rows:
-        split = _split_name(month, val_start, test_start)
-        months[split].append(month)
-        raw_x[split].append(_raw_inputs(features, month))
-        raw_y[split].append(math.log1p(target))
-    width = len(raw_x["train"][0])
-    raw_x = {k: np.asarray(v, dtype=float).reshape(-1, width) for k, v in raw_x.items()}
-    raw_y = {k: np.asarray(v, dtype=float).reshape(-1, 1) for k, v in raw_y.items()}
-    return months, raw_x, raw_y
-
-
-def _build_one(state, rows, val_start, test_start):
-    months, raw_x, raw_y = _split_rows(rows, val_start, test_start)
-    x_mean, x_std = raw_x["train"].mean(axis=0), _safe_std(raw_x["train"])
-    y_mean = float(raw_y["train"].mean())
-    y_std = float(_safe_std(raw_y["train"])[0])
-    x = {split: ((raw_x[split] - x_mean) / x_std).astype(np.float32) for split in SPLITS}
-    y = {split: ((raw_y[split] - y_mean) / y_std).astype(np.float32) for split in SPLITS}
+    for month in window_targets(inputs, window):
+        months[_split_name(month, val_start, test_start)].append(month)
+    x = {
+        split: ((_stack(inputs, months[split], window, len(x_mean)) - x_mean) / x_std)
+        .astype(np.float32)
+        for split in SPLITS
+    }
+    y = {
+        split: ((np.asarray([targets[m] for m in months[split]]).reshape(-1, 1) - y_mean) / y_std)
+        .astype(np.float32)
+        for split in SPLITS
+    }
     return StateClientData(state, months, x, y, x_mean, x_std, y_mean, y_std)
 
 
-def build_state_clients(records, val_start, test_start, min_train=24):
-    """Return (clients, excluded): one client per eligible state, sorted by state id."""
+def _training_scales(inputs, targets, val_start):
+    """Mean/std of inputs and log targets over training-period rows only."""
+    train_months = [month for month in inputs if month < val_start]
+    train_x = np.asarray([inputs[m] for m in train_months], dtype=float)
+    train_y = np.asarray([targets[m] for m in train_months], dtype=float).reshape(-1, 1)
+    return (
+        train_x.mean(axis=0),
+        _safe_std(train_x),
+        float(train_y.mean()),
+        float(_safe_std(train_y)[0]),
+    )
+
+
+def _stack(inputs, target_months, window, width):
+    """Return a (n, window, width) array of the input rows ending at each target month."""
+    stacked = [
+        [inputs[shift_month(month, offset - window + 1)] for offset in range(window)]
+        for month in target_months
+    ]
+    return np.asarray(stacked, dtype=float).reshape(-1, window, width)
+
+
+def select_features(records, names, feature_set):
+    """Keep all inputs, or only GST-history inputs for `gst_only`."""
+    if feature_set == "all":
+        return records, list(names)
+    if feature_set != "gst_only":
+        raise ValueError("feature_set must be 'all' or 'gst_only'")
+    keep = [index for index, name in enumerate(names) if "gst" in name]
+    selected = [(s, m, [f[i] for i in keep], y) for s, m, f, y in records]
+    return selected, [names[i] for i in keep]
+
+
+# pylint: disable-next=too-many-arguments,too-many-positional-arguments
+def build_state_clients(records, val_start, test_start, min_train=24, window=6):
+    """Return (clients, excluded): one client per eligible state, sorted by state id.
+
+    Eligibility is counted in usable windows per split.
+    """
     if not val_start < test_start:
         raise ValueError("Validation start must precede test start")
+    if window < 1:
+        raise ValueError("window must be at least 1")
     by_state = defaultdict(list)
     for record in records:
         by_state[record[0]].append(record)
@@ -170,14 +220,14 @@ def build_state_clients(records, val_start, test_start, min_train=24):
         if len({r[1] for r in rows}) != len(rows):
             raise ValueError(f"Duplicate target month for state {state}")
         counts = {split: 0 for split in SPLITS}
-        for row in rows:
-            counts[_split_name(row[1], val_start, test_start)] += 1
+        for month in window_targets([r[1] for r in rows], window):
+            counts[_split_name(month, val_start, test_start)] += 1
         if counts["train"] < min_train:
-            excluded[state] = f"{counts['train']} training rows < {min_train}"
+            excluded[state] = f"{counts['train']} training windows < {min_train}"
         elif counts["val"] == 0 or counts["test"] == 0:
-            excluded[state] = "no validation or test rows"
+            excluded[state] = "no validation or test windows"
         else:
-            clients.append(_build_one(state, rows, val_start, test_start))
+            clients.append(_build_one(state, rows, val_start, test_start, window))
     check_disjoint(clients)
     return clients, excluded
 
@@ -242,7 +292,14 @@ def add_data_arguments(parser):
     )
     parser.add_argument("--val-start", help="first validation target month, YYYY-MM")
     parser.add_argument("--test-start", help="first test target month, YYYY-MM")
-    parser.add_argument("--min-train", type=int, default=24)
+    parser.add_argument("--min-train", type=int, default=24, help="minimum training windows")
+    parser.add_argument("--window", type=int, default=6, help="input months per GRU window")
+    parser.add_argument(
+        "--features",
+        choices=["all", "gst_only"],
+        default="all",
+        help="gst_only keeps the lagged GST inputs (plus the month encoding)",
+    )
 
 
 def clients_from_arguments(args):
@@ -253,10 +310,13 @@ def clients_from_arguments(args):
         records, features = load_panel_records(args.panel, args.allow_assumed_vintages)
     else:
         records, features = load_synthetic_records()
+    records, features = select_features(records, features, args.features)
     default_val, default_test = DEFAULT_CUTOFFS[args.source]
     val_start = args.val_start or default_val
     test_start = args.test_start or default_test
-    clients, excluded = build_state_clients(records, val_start, test_start, args.min_train)
+    clients, excluded = build_state_clients(
+        records, val_start, test_start, args.min_train, args.window
+    )
     if not clients:
         raise SystemExit(f"No eligible state clients; excluded: {excluded}")
     manifest = {
@@ -267,6 +327,8 @@ def clients_from_arguments(args):
         "val_start": val_start,
         "test_start": test_start,
         "min_train": args.min_train,
+        "window": args.window,
+        "feature_set": args.features,
         "excluded_states": excluded,
     }
     return clients, excluded, manifest

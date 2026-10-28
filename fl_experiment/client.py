@@ -45,7 +45,7 @@ class StateClient(fl.client.NumPyClient):
         self.set_parameters(parameters)
         x = torch.from_numpy(self.data.x["train"])
         y = torch.from_numpy(self.data.y["train"])
-        optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr, weight_decay=1e-4)
         self.model.train()
         loss = torch.zeros(())
         for _ in range(self.local_epochs):
