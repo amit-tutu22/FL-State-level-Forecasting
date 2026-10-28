@@ -2,7 +2,7 @@
 
 ## Scope and sources
 
-The research pipeline uses observed public data. The old `data-generator/` and `fl_experiment/data/state_budget_gst.csv` are legacy synthetic prototypes for software smoke tests, not thesis evidence. The new pipeline does not import either. It is separate from the existing unfinished Flower training prototype.
+The research pipeline uses observed public data. The old `data-generator/` and `fl_experiment/data/state_budget_gst.csv` are legacy synthetic prototypes for software smoke tests, not thesis evidence. The new pipeline does not import either. The Flower experiments in `fl_experiment/` read its panel output through `data_pipeline.clients.load_clients`.
 
 Sources, accessed 29 October 2026 (India time):
 
@@ -29,7 +29,7 @@ Acquisition/normalization require new empty output directories. A failed downloa
 
 The processed directory contains `gst.csv`, `ewb.csv`, `cpi.csv`, `state_mapping_audit.csv` and `reconciliation.json`. Missing observations stay missing. No target interpolation, synthetic replacement, train/test scaling or fitting occurs here.
 
-CI runs these offline tests in `.github/workflows/data-pipeline.yml`, and `.github/workflows/pylint.yml` lints `data_pipeline/` and `tests/` on Python 3.11. The legacy `fl_experiment/` and `data-generator/` code is not linted until it is repaired (#18).
+CI runs these offline tests in `.github/workflows/data-pipeline.yml`, and `.github/workflows/pylint.yml` lints `data_pipeline/` and `tests/` on Python 3.11. `fl_experiment/` is linted and tested separately in `.github/workflows/fl-smoke.yml`; the legacy `data-generator/` is not linted.
 
 ## Definitions that affect the thesis
 

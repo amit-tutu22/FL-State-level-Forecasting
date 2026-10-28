@@ -10,9 +10,10 @@ The work follows the 8-month roadmap in [#30](https://github.com/amit-tutu22/FL-
 |---|---|
 | M1 — Dataset feasibility | Official GST, E-Way Bill and CPI pipeline acquired, audited and tested ([#13](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/13) closed; [#14](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/14) remaining items open) |
 | M2 — Forecasting baselines | Not started ([#15](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/15)–[#17](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/17)) |
-| M3 onwards — Flower baselines, personalization, evaluation | Not started |
+| M3 — Flower federated baselines | Flower startup repaired with one disjoint client per state ([#18](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/18)); FedAvg/FedProx benchmarks not started |
+| M4 onwards — review, personalization, evaluation | Not started |
 
-The `fl_experiment/` Flower prototype and `data-generator/` are legacy synthetic smoke-test code. They do not currently run (repair is tracked in [#18](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/18)) and produce no thesis evidence.
+`fl_experiment/` runs a FedAvg simulation over one client per state. So far it has run only on the legacy synthetic data from `data-generator/`, which is for software smoke tests and produces no thesis evidence. See [fl_experiment/README.md](fl_experiment/README.md).
 
 No forecasting results or privacy guarantees are claimed yet. Federation over public data is a simulation, not a deployed privacy mechanism.
 
@@ -36,6 +37,13 @@ python -m data_pipeline.panel --processed data/processed/my-vintage --output dat
 
 Raw and processed exports stay out of Git under `data/`.
 
+Federated experiments additionally need Flower and PyTorch:
+
+```sh
+scripts/setup_venv.sh --fl
+python -m fl_experiment.run_fl_simulation --rounds 3
+```
+
 ## Data definitions that matter
 
 - **Target:** `target_gst_excluding_cess_crore` (CGST + SGST + IGST, domestic, gross of refunds, INR crore) is the historically consistent outcome. The published total includes cess only through FY2024–25, so it is kept separately and is not a consistent series.
@@ -50,12 +58,12 @@ Details: [docs/REAL_DATA_PIPELINE.md](docs/REAL_DATA_PIPELINE.md) and the [29 Oc
 data_pipeline/          Official-source acquisition, normalization, geography mapping, panel joins, PDF checks
 tests/                  Offline tests with official regression fixtures
 docs/                   Pipeline guide, dated audits, archived proposal
-fl_experiment/          Legacy Flower prototype on synthetic data (broken, see #18)
+fl_experiment/          Flower FedAvg simulation, one disjoint client per state
 data-generator/         Legacy synthetic data generator (smoke tests only)
-scripts/setup_venv.sh   Python 3.11 environment setup
+scripts/setup_venv.sh   Python 3.11 environment setup (--fl adds Flower/PyTorch)
 ```
 
-CI runs the offline tests (`.github/workflows/data-pipeline.yml`) and Pylint on `data_pipeline/` and `tests/` (`.github/workflows/pylint.yml`).
+CI runs the pipeline tests (`data-pipeline.yml`), Pylint on `data_pipeline/` and `tests/` (`pylint.yml`), and Pylint, tests and a two-round ten-state simulation for `fl_experiment/` (`fl-smoke.yml`).
 
 ## License
 

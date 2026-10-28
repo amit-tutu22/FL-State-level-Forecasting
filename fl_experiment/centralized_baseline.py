@@ -1,34 +1,51 @@
-import pandas as pd
+"""Pooled (non-federated) reference on the same state clients and splits.
+
+    python -m fl_experiment.centralized_baseline --epochs 200
+"""
+
+import argparse
+import json
+
+import numpy as np
 import torch
-import torch.optim as optim
-from model import RevenueModel
-from sklearn.preprocessing import StandardScaler
 
-df = pd.read_csv("data/state_budget_gst.csv")
+from fl_experiment.metrics import regression_metrics
+from fl_experiment.model import RevenueModel
+from fl_experiment.state_data import add_data_arguments, clients_from_arguments
 
-X = df[[
-    "sgst_share", "cgst_share",
-    "fiscal_deficit_pct",
-    "urban_ratio",
-    "gdp_growth_pct"
-]].values
 
-y = df["gst_revenue"].values
+def main():
+    """Train one model on all states' training rows and report per-state validation error."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    add_data_arguments(parser)
+    parser.add_argument("--epochs", type=int, default=200)
+    parser.add_argument("--lr", type=float, default=0.01)
+    parser.add_argument("--seed", type=int, default=0)
+    args = parser.parse_args()
+    torch.manual_seed(args.seed)
 
-scaler = StandardScaler()
-X = scaler.fit_transform(X)
+    clients, _, _ = clients_from_arguments(args)
+    x = torch.from_numpy(np.concatenate([c.x["train"] for c in clients]))
+    y = torch.from_numpy(np.concatenate([c.y["train"] for c in clients]))
+    model = RevenueModel(clients[0].n_features)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    loss_fn = torch.nn.MSELoss()
+    for _ in range(args.epochs):
+        optimizer.zero_grad()
+        loss = loss_fn(model(x), y)
+        loss.backward()
+        optimizer.step()
 
-X = torch.tensor(X, dtype=torch.float32)
-y = torch.tensor(y, dtype=torch.float32).view(-1, 1)
+    model.eval()
+    per_state = {}
+    with torch.no_grad():
+        for client in clients:
+            prediction = model(torch.from_numpy(client.x["val"])).numpy()
+            per_state[client.state_id] = regression_metrics(
+                client.decode(client.y["val"]), client.decode(prediction)
+            )
+    print(json.dumps({"validation_by_state": per_state}, indent=2))
 
-model = RevenueModel()
-optimizer = optim.Adam(model.parameters(), lr=0.01)
-loss_fn = torch.nn.MSELoss()
 
-for epoch in range(50):
-    optimizer.zero_grad()
-    loss = loss_fn(model(X), y)
-    loss.backward()
-    optimizer.step()
-
-print("Centralized MSE:", loss.item())
+if __name__ == "__main__":
+    main()

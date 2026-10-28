@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 # Create .venv on Python 3.11+ and install the real-data pipeline dependencies.
+# Pass --fl to also install the Flower/PyTorch experiment dependencies.
 # Some Homebrew Python builds ship a broken pyexpat that crashes pip, so every
 # fallback interpreter is checked before use.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV="$ROOT/.venv"
-REQUIREMENTS="$ROOT/requirements-data.txt"
+REQUIREMENTS=(-r "$ROOT/requirements-data.txt")
+if [ "${1:-}" = "--fl" ]; then
+  REQUIREMENTS+=(-r "$ROOT/requirements-fl.txt")
+elif [ -n "${1:-}" ]; then
+  echo "Usage: $0 [--fl]" >&2
+  exit 2
+fi
 
 works() {
   "$1" -c 'import sys, xml.parsers.expat; sys.exit(sys.version_info < (3, 11))' \
@@ -43,10 +50,10 @@ if ! works "$VENV/bin/python"; then
 fi
 
 if command -v uv >/dev/null 2>&1; then
-  uv pip install -p "$VENV/bin/python" -r "$REQUIREMENTS"
+  uv pip install -p "$VENV/bin/python" "${REQUIREMENTS[@]}"
 else
   "$VENV/bin/python" -m pip install --upgrade pip
-  "$VENV/bin/python" -m pip install -r "$REQUIREMENTS"
+  "$VENV/bin/python" -m pip install "${REQUIREMENTS[@]}"
 fi
 
 echo
