@@ -1,0 +1,168 @@
+source,source_code,source_name,state_id,state,status,first_month,last_month,observations
+cpi_2012,1,Jammu & Kashmir,jammu_and_kashmir,Jammu and Kashmir,boundary_definition_unverified,2019-11,2025-12,72
+cpi_2012,1,Jammu & Kashmir,jammu_and_kashmir,Jammu and Kashmir,boundary_transition_month,2019-10,2019-10,1
+cpi_2012,1,Jammu & Kashmir,jammu_and_kashmir_undivided,Jammu and Kashmir,validated_name,2013-01,2019-09,81
+cpi_2012,10,Bihar,bihar,Bihar,validated_name,2013-01,2025-12,154
+cpi_2012,11,Sikkim,sikkim,Sikkim,validated_name,2013-01,2025-12,154
+cpi_2012,12,Arunachal Pradesh,arunachal_pradesh,Arunachal Pradesh,validated_name,2013-01,2025-12,154
+cpi_2012,13,Nagaland,nagaland,Nagaland,validated_name,2013-01,2025-12,153
+cpi_2012,14,Manipur,manipur,Manipur,validated_name,2013-01,2025-12,153
+cpi_2012,15,Mizoram,mizoram,Mizoram,validated_name,2013-01,2025-12,154
+cpi_2012,16,Tripura,tripura,Tripura,validated_name,2013-01,2025-12,154
+cpi_2012,17,Meghalaya,meghalaya,Meghalaya,validated_name,2013-01,2025-12,154
+cpi_2012,18,Assam,assam,Assam,validated_name,2013-01,2025-12,154
+cpi_2012,19,West Bengal,west_bengal,West Bengal,validated_name,2013-01,2025-12,154
+cpi_2012,2,Himachal Pradesh,himachal_pradesh,Himachal Pradesh,validated_name,2013-01,2025-12,154
+cpi_2012,20,Jharkhand,jharkhand,Jharkhand,validated_name,2013-01,2025-12,154
+cpi_2012,21,Odisha,odisha,Odisha,validated_name,2013-01,2025-12,154
+cpi_2012,22,Chhattisgarh,chhattisgarh,Chhattisgarh,validated_name,2013-01,2025-12,154
+cpi_2012,23,Madhya Pradesh,madhya_pradesh,Madhya Pradesh,validated_name,2013-01,2025-12,154
+cpi_2012,24,Gujarat,gujarat,Gujarat,validated_name,2013-01,2025-12,154
+cpi_2012,25,Daman & Diu,daman_and_diu_legacy,Daman and Diu,boundary_definition_unverified,2020-01,2025-12,70
+cpi_2012,25,Daman & Diu,daman_and_diu_legacy,Daman and Diu,validated_name,2013-01,2019-12,84
+cpi_2012,26,Dadra & Nagar Haveli,dadra_and_nagar_haveli_legacy,Dadra and Nagar Haveli,boundary_definition_unverified,2020-01,2025-12,70
+cpi_2012,26,Dadra & Nagar Haveli,dadra_and_nagar_haveli_legacy,Dadra and Nagar Haveli,validated_name,2013-01,2019-12,84
+cpi_2012,27,Maharashtra,maharashtra,Maharashtra,validated_name,2013-01,2025-12,154
+cpi_2012,28,Andhra Pradesh,andhra_pradesh,Andhra Pradesh,validated_name,2013-01,2025-12,154
+cpi_2012,29,Karnataka,karnataka,Karnataka,validated_name,2013-01,2025-12,154
+cpi_2012,3,Punjab,punjab,Punjab,validated_name,2013-01,2025-12,154
+cpi_2012,30,Goa,goa,Goa,validated_name,2013-01,2025-12,154
+cpi_2012,31,Lakshadweep,lakshadweep,Lakshadweep,validated_name,2013-01,2025-12,154
+cpi_2012,32,Kerala,kerala,Kerala,validated_name,2013-01,2025-12,154
+cpi_2012,33,Tamil Nadu,tamil_nadu,Tamil Nadu,validated_name,2013-01,2025-12,154
+cpi_2012,34,Puducherry,puducherry,Puducherry,validated_name,2013-01,2025-12,153
+cpi_2012,35,Andaman & Nicobar Islands,andaman_and_nicobar_islands,Andaman and Nicobar Islands,validated_name,2013-01,2025-12,154
+cpi_2012,36,Telangana,telangana,Telangana,validated_name,2013-01,2025-12,154
+cpi_2012,4,Chandigarh,chandigarh,Chandigarh,validated_name,2013-01,2025-12,154
+cpi_2012,5,Uttarakhand,uttarakhand,Uttarakhand,validated_name,2013-01,2025-12,154
+cpi_2012,6,Haryana,haryana,Haryana,validated_name,2013-01,2025-12,154
+cpi_2012,7,Delhi,delhi,Delhi,validated_name,2013-01,2025-12,154
+cpi_2012,8,Rajasthan,rajasthan,Rajasthan,validated_name,2013-01,2025-12,154
+cpi_2012,9,Uttar Pradesh,uttar_pradesh,Uttar Pradesh,validated_name,2013-01,2025-12,154
+cpi_2012,99,All India,all_india,All India,non_client,2013-01,2025-12,156
+cpi_2024,1,All India,all_india,All India,non_client,2013-01,2026-09,165
+cpi_2024,10,Gujarat,gujarat,Gujarat,validated_name,2025-01,2026-09,21
+cpi_2024,11,Haryana,haryana,Haryana,validated_name,2025-01,2026-09,21
+cpi_2024,12,Himachal Pradesh,himachal_pradesh,Himachal Pradesh,validated_name,2025-01,2026-09,21
+cpi_2024,13,Jammu And Kashmir,jammu_and_kashmir,Jammu and Kashmir,validated_name,2025-01,2026-09,21
+cpi_2024,14,Jharkhand,jharkhand,Jharkhand,validated_name,2025-01,2026-09,21
+cpi_2024,15,Karnataka,karnataka,Karnataka,validated_name,2025-01,2026-09,21
+cpi_2024,16,Kerala,kerala,Kerala,validated_name,2025-01,2026-09,21
+cpi_2024,17,Ladakh,ladakh,Ladakh,validated_name,2025-01,2026-09,21
+cpi_2024,18,Lakshadweep,lakshadweep,Lakshadweep,validated_name,2025-01,2026-09,21
+cpi_2024,19,Madhya Pradesh,madhya_pradesh,Madhya Pradesh,validated_name,2025-01,2026-09,21
+cpi_2024,2,Andaman And Nicobar Islands,andaman_and_nicobar_islands,Andaman and Nicobar Islands,validated_name,2025-01,2026-09,21
+cpi_2024,20,Maharashtra,maharashtra,Maharashtra,validated_name,2025-01,2026-09,21
+cpi_2024,21,Manipur,manipur,Manipur,validated_name,2025-01,2026-09,21
+cpi_2024,22,Meghalaya,meghalaya,Meghalaya,validated_name,2025-01,2026-09,21
+cpi_2024,23,Mizoram,mizoram,Mizoram,validated_name,2025-01,2026-09,21
+cpi_2024,24,Nagaland,nagaland,Nagaland,validated_name,2025-01,2026-09,21
+cpi_2024,25,NCT of Delhi,delhi,Delhi,validated_name,2025-01,2026-09,21
+cpi_2024,26,Odisha,odisha,Odisha,validated_name,2025-01,2026-09,21
+cpi_2024,27,Puducherry,puducherry,Puducherry,validated_name,2025-01,2026-09,21
+cpi_2024,28,Punjab,punjab,Punjab,validated_name,2025-01,2026-09,21
+cpi_2024,29,Rajasthan,rajasthan,Rajasthan,validated_name,2025-01,2026-09,21
+cpi_2024,3,Andhra Pradesh,andhra_pradesh,Andhra Pradesh,validated_name,2025-01,2026-09,21
+cpi_2024,30,Sikkim,sikkim,Sikkim,validated_name,2025-01,2026-09,21
+cpi_2024,31,Tamil Nadu,tamil_nadu,Tamil Nadu,validated_name,2025-01,2026-09,21
+cpi_2024,32,Telangana,telangana,Telangana,validated_name,2025-01,2026-09,21
+cpi_2024,33,The Dadra And Nagar Haveli And Daman And Diu,dadra_and_nagar_haveli_and_daman_and_diu,Dadra and Nagar Haveli and Daman and Diu,validated_name,2025-01,2026-09,21
+cpi_2024,34,Tripura,tripura,Tripura,validated_name,2025-01,2026-09,21
+cpi_2024,35,Uttar Pradesh,uttar_pradesh,Uttar Pradesh,validated_name,2025-01,2026-09,21
+cpi_2024,36,Uttarakhand,uttarakhand,Uttarakhand,validated_name,2025-01,2026-09,21
+cpi_2024,37,West Bengal,west_bengal,West Bengal,validated_name,2025-01,2026-09,21
+cpi_2024,4,Arunachal Pradesh,arunachal_pradesh,Arunachal Pradesh,validated_name,2025-01,2026-09,21
+cpi_2024,5,Assam,assam,Assam,validated_name,2025-01,2026-09,21
+cpi_2024,6,Bihar,bihar,Bihar,validated_name,2025-01,2026-09,21
+cpi_2024,7,Chandigarh,chandigarh,Chandigarh,validated_name,2025-01,2026-09,21
+cpi_2024,8,Chhattisgarh,chhattisgarh,Chhattisgarh,validated_name,2025-01,2026-09,21
+cpi_2024,9,Goa,goa,Goa,validated_name,2025-01,2026-09,21
+ewb,1,JAMMU AND KASHMIR,jammu_and_kashmir,Jammu and Kashmir,boundary_transition_month,2019-10,2019-10,1
+ewb,1,JAMMU AND KASHMIR,jammu_and_kashmir,Jammu and Kashmir,validated_name,2019-11,2026-08,82
+ewb,1,JAMMU AND KASHMIR,jammu_and_kashmir_undivided,Jammu and Kashmir,validated_name,2018-07,2019-09,15
+ewb,10,BIHAR,bihar,Bihar,validated_name,2018-07,2026-08,98
+ewb,11,SIKKIM,sikkim,Sikkim,validated_name,2018-07,2026-08,98
+ewb,12,ARUNACHAL PRADESH,arunachal_pradesh,Arunachal Pradesh,validated_name,2018-07,2026-08,98
+ewb,13,NAGALAND,nagaland,Nagaland,validated_name,2018-07,2026-08,98
+ewb,14,MANIPUR,manipur,Manipur,validated_name,2018-07,2026-08,98
+ewb,15,MIZORAM,mizoram,Mizoram,validated_name,2018-07,2026-08,98
+ewb,16,TRIPURA,tripura,Tripura,validated_name,2018-07,2026-08,98
+ewb,17,MEGHALAYA,meghalaya,Meghalaya,validated_name,2018-07,2026-08,98
+ewb,18,ASSAM,assam,Assam,validated_name,2018-07,2026-08,98
+ewb,19,WEST BENGAL,west_bengal,West Bengal,validated_name,2018-07,2026-08,98
+ewb,2,HIMACHAL PRADESH,himachal_pradesh,Himachal Pradesh,validated_name,2018-07,2026-08,98
+ewb,20,JHARKHAND,jharkhand,Jharkhand,validated_name,2018-07,2026-08,98
+ewb,21,ODISHA,odisha,Odisha,validated_name,2018-07,2026-08,98
+ewb,22,CHHATTISGARH,chhattisgarh,Chhattisgarh,validated_name,2018-07,2026-08,98
+ewb,23,MADHYA PRADESH,madhya_pradesh,Madhya Pradesh,validated_name,2018-07,2026-08,98
+ewb,24,GUJARAT,gujarat,Gujarat,validated_name,2018-07,2026-08,98
+ewb,25,DAMAN AND DIU,daman_and_diu_legacy,Daman and Diu,boundary_definition_unverified,2020-01,2026-08,80
+ewb,25,DAMAN AND DIU,daman_and_diu_legacy,Daman and Diu,validated_name,2018-07,2019-12,18
+ewb,26,DADRA AND NAGAR HAVELI,dadra_and_nagar_haveli_legacy,Dadra and Nagar Haveli,boundary_definition_unverified,2020-01,2026-08,80
+ewb,26,DADRA AND NAGAR HAVELI,dadra_and_nagar_haveli_legacy,Dadra and Nagar Haveli,validated_name,2018-07,2019-12,18
+ewb,27,MAHARASHTRA,maharashtra,Maharashtra,validated_name,2018-07,2026-08,98
+ewb,29,KARNATAKA,karnataka,Karnataka,validated_name,2018-07,2026-08,98
+ewb,3,PUNJAB,punjab,Punjab,validated_name,2018-07,2026-08,98
+ewb,30,GOA,goa,Goa,validated_name,2018-07,2026-08,98
+ewb,31,LAKSHADWEEP,lakshadweep,Lakshadweep,validated_name,2018-07,2026-08,98
+ewb,32,KERALA,kerala,Kerala,validated_name,2018-07,2026-08,98
+ewb,33,TAMIL NADU,tamil_nadu,Tamil Nadu,validated_name,2018-07,2026-08,98
+ewb,34,PUDUCHERRY,puducherry,Puducherry,validated_name,2018-07,2026-08,98
+ewb,35,ANDAMAN AND NICOBAR,andaman_and_nicobar_islands,Andaman and Nicobar Islands,validated_name,2018-07,2026-08,98
+ewb,36,TELANGANA,telangana,Telangana,validated_name,2018-07,2026-08,98
+ewb,37,ANDHRA PRADESH,andhra_pradesh,Andhra Pradesh,validated_name,2018-07,2026-08,98
+ewb,38,LADAKH,ladakh,Ladakh,validated_name,2020-01,2026-08,80
+ewb,4,CHANDIGARH,chandigarh,Chandigarh,validated_name,2018-07,2026-08,98
+ewb,5,UTTARAKHAND,uttarakhand,Uttarakhand,validated_name,2018-07,2026-08,98
+ewb,6,HARYANA,haryana,Haryana,validated_name,2018-07,2026-08,98
+ewb,7,DELHI,delhi,Delhi,validated_name,2018-07,2026-08,98
+ewb,8,RAJASTHAN,rajasthan,Rajasthan,validated_name,2018-07,2026-08,98
+ewb,9,UTTAR PRADESH,uttar_pradesh,Uttar Pradesh,validated_name,2018-07,2026-08,98
+ewb,97,Other Territory,other_territory,Other Territory,non_client,2018-11,2026-08,94
+gst,1,Jammu and Kashmir,jammu_and_kashmir,Jammu and Kashmir,boundary_transition_month,2019-10,2019-10,1
+gst,1,Jammu and Kashmir,jammu_and_kashmir,Jammu and Kashmir,validated_name,2019-11,2026-08,82
+gst,1,Jammu and Kashmir,jammu_and_kashmir_undivided,Jammu and Kashmir,validated_name,2017-07,2019-09,27
+gst,10,Bihar,bihar,Bihar,validated_name,2017-07,2026-08,110
+gst,11,Sikkim,sikkim,Sikkim,validated_name,2017-07,2026-08,110
+gst,12,Arunachal Pradesh,arunachal_pradesh,Arunachal Pradesh,validated_name,2017-07,2026-08,110
+gst,13,Nagaland,nagaland,Nagaland,validated_name,2017-07,2026-08,110
+gst,14,Manipur,manipur,Manipur,validated_name,2017-07,2026-08,110
+gst,15,Mizoram,mizoram,Mizoram,validated_name,2017-07,2026-08,110
+gst,16,Tripura,tripura,Tripura,validated_name,2017-07,2026-08,110
+gst,17,Meghalaya,meghalaya,Meghalaya,validated_name,2017-07,2026-08,110
+gst,18,Assam,assam,Assam,validated_name,2017-07,2026-08,110
+gst,19,West Bengal,west_bengal,West Bengal,validated_name,2017-07,2026-08,110
+gst,2,Himachal Pradesh,himachal_pradesh,Himachal Pradesh,validated_name,2017-07,2026-08,110
+gst,20,Jharkhand,jharkhand,Jharkhand,validated_name,2017-07,2026-08,110
+gst,21,Odisha,odisha,Odisha,validated_name,2017-07,2026-08,110
+gst,22,Chhattisgarh,chhattisgarh,Chhattisgarh,validated_name,2017-07,2026-08,110
+gst,23,Madhya Pradesh,madhya_pradesh,Madhya Pradesh,validated_name,2017-07,2026-08,110
+gst,24,Gujarat,gujarat,Gujarat,validated_name,2017-07,2026-08,110
+gst,25,Daman and Diu,daman_and_diu_legacy,Daman and Diu,boundary_definition_unverified,2020-01,2026-03,75
+gst,25,Daman and Diu,daman_and_diu_legacy,Daman and Diu,validated_name,2017-07,2019-12,30
+gst,26,Dadra and Nagar Haveli,dadra_and_nagar_haveli_legacy,Dadra and Nagar Haveli,boundary_definition_unverified,2020-01,2026-08,80
+gst,26,Dadra and Nagar Haveli,dadra_and_nagar_haveli_legacy,Dadra and Nagar Haveli,validated_name,2017-07,2019-12,30
+gst,27,Maharashtra,maharashtra,Maharashtra,validated_name,2017-07,2026-08,110
+gst,29,Karnataka,karnataka,Karnataka,validated_name,2017-07,2026-08,110
+gst,3,Punjab,punjab,Punjab,validated_name,2017-07,2026-08,110
+gst,30,Goa,goa,Goa,validated_name,2017-07,2026-08,110
+gst,31,Lakshadweep,lakshadweep,Lakshadweep,validated_name,2017-07,2026-08,110
+gst,32,Kerala,kerala,Kerala,validated_name,2017-07,2026-08,110
+gst,33,Tamil Nadu,tamil_nadu,Tamil Nadu,validated_name,2017-07,2026-08,110
+gst,34,Puducherry,puducherry,Puducherry,validated_name,2017-07,2026-08,110
+gst,35,Andaman and Nicobar Island,andaman_and_nicobar_islands,Andaman and Nicobar Islands,validated_name,2017-07,2023-03,69
+gst,35,Andaman and Nicobar Islands,andaman_and_nicobar_islands,Andaman and Nicobar Islands,validated_name,2023-04,2026-08,41
+gst,36,Telangana,telangana,Telangana,validated_name,2017-07,2026-08,110
+gst,37,Andhra Pradesh,andhra_pradesh,Andhra Pradesh,validated_name,2017-07,2026-08,110
+gst,38,Ladakh,ladakh,Ladakh,boundary_transition_month,2019-10,2019-10,1
+gst,38,Ladakh,ladakh,Ladakh,pre_formation_placeholder,2019-04,2019-09,6
+gst,38,Ladakh,ladakh,Ladakh,validated_name,2019-11,2026-08,82
+gst,4,Chandigarh,chandigarh,Chandigarh,validated_name,2017-07,2026-08,110
+gst,5,Uttarakhand,uttarakhand,Uttarakhand,validated_name,2017-07,2026-08,110
+gst,6,Haryana,haryana,Haryana,validated_name,2017-07,2026-08,110
+gst,7,Delhi,delhi,Delhi,validated_name,2017-07,2026-08,110
+gst,8,Rajasthan,rajasthan,Rajasthan,validated_name,2017-07,2026-08,110
+gst,9,Uttar Pradesh,uttar_pradesh,Uttar Pradesh,validated_name,2017-07,2026-08,110
+gst,97,Other Territory,other_territory,Other Territory,non_client,2017-07,2026-08,110
+gst,99,CBIC,cbic,CBIC,non_client,2017-07,2024-03,81
+gst,99,OIDAR,oidar,OIDAR,non_client,2024-04,2026-08,29

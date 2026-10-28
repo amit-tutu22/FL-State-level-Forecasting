@@ -1,0 +1,495 @@
+{
+  "sources": {
+    "gst": {
+      "rows": 4264,
+      "first_month": "2017-07",
+      "last_month": "2026-08",
+      "reference_months": 110,
+      "usable_rows": 3877
+    },
+    "ewb": {
+      "rows": 3702,
+      "first_month": "2018-07",
+      "last_month": "2026-08",
+      "reference_months": 98,
+      "usable_rows": 3444
+    },
+    "cpi": {
+      "rows": 6618,
+      "first_month": "2013-01",
+      "last_month": "2026-09",
+      "reference_months": 165,
+      "usable_rows": 5940
+    }
+  },
+  "overlap_by_cpi_base": {
+    "2012": {
+      "joint_state_months": 2867,
+      "states": {
+        "andaman_and_nicobar_islands": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "andhra_pradesh": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "arunachal_pradesh": {
+          "first": "2018-07",
+          "last": "2020-06",
+          "months": 6,
+          "internal_missing_months": 18
+        },
+        "assam": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "bihar": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "chandigarh": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "chhattisgarh": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "dadra_and_nagar_haveli_legacy": {
+          "first": "2018-07",
+          "last": "2019-12",
+          "months": 18,
+          "internal_missing_months": 0
+        },
+        "daman_and_diu_legacy": {
+          "first": "2018-07",
+          "last": "2019-12",
+          "months": 18,
+          "internal_missing_months": 0
+        },
+        "delhi": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "goa": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "gujarat": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "haryana": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "himachal_pradesh": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "jammu_and_kashmir_undivided": {
+          "first": "2018-07",
+          "last": "2019-09",
+          "months": 15,
+          "internal_missing_months": 0
+        },
+        "jharkhand": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "karnataka": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "kerala": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "lakshadweep": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 85,
+          "internal_missing_months": 5
+        },
+        "madhya_pradesh": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "maharashtra": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "manipur": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 87,
+          "internal_missing_months": 3
+        },
+        "meghalaya": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "mizoram": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "nagaland": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 87,
+          "internal_missing_months": 3
+        },
+        "odisha": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "puducherry": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 87,
+          "internal_missing_months": 3
+        },
+        "punjab": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "rajasthan": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "sikkim": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "tamil_nadu": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "telangana": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "tripura": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "uttar_pradesh": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "uttarakhand": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        },
+        "west_bengal": {
+          "first": "2018-07",
+          "last": "2025-12",
+          "months": 88,
+          "internal_missing_months": 2
+        }
+      }
+    },
+    "2024": {
+      "joint_state_months": 700,
+      "states": {
+        "andaman_and_nicobar_islands": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "andhra_pradesh": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "arunachal_pradesh": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "assam": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "bihar": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "chandigarh": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "chhattisgarh": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "delhi": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "goa": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "gujarat": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "haryana": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "himachal_pradesh": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "jammu_and_kashmir": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "jharkhand": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "karnataka": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "kerala": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "ladakh": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "lakshadweep": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "madhya_pradesh": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "maharashtra": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "manipur": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "meghalaya": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "mizoram": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "nagaland": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "odisha": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "puducherry": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "punjab": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "rajasthan": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "sikkim": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "tamil_nadu": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "telangana": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "tripura": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "uttar_pradesh": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "uttarakhand": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        },
+        "west_bengal": {
+          "first": "2025-01",
+          "last": "2026-08",
+          "months": 20,
+          "internal_missing_months": 0
+        }
+      }
+    }
+  },
+  "geography_exclusions": {
+    "gst": {
+      "non_client": 220,
+      "boundary_definition_unverified": 155,
+      "boundary_transition_month": 2,
+      "pre_formation_placeholder": 6
+    },
+    "ewb": {
+      "boundary_definition_unverified": 160,
+      "boundary_transition_month": 1,
+      "non_client": 94
+    },
+    "cpi": {
+      "non_client": 321,
+      "boundary_definition_unverified": 212,
+      "boundary_transition_month": 1
+    }
+  },
+  "limitations": [
+    "Overlap is reference-month overlap, not proof of real-time availability.",
+    "CPI bases are never spliced. Official 2024 back series may be All India only.",
+    "Latest downloaded files are revised snapshots; exact historical publication vintages are unavailable.",
+    "Strict joins use retrieval date unless supported by a verified vintage registry.",
+    "Gross GST components exclude imports; source totals change cess coverage in FY2025-26.",
+    "Ambiguous post-reorganisation geographies are retained but quarantined from model joins."
+  ],
+  "join": {
+    "mode": "strict",
+    "cpi_base": "2012",
+    "rows": 3877,
+    "complete_rows": 0
+  }
+}
