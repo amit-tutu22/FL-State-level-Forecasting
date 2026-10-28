@@ -1,3 +1,9 @@
+## Real-data forecasting pipeline
+
+The current research data path uses official GST, E-Way Bill and MoSPI CPI exports. See [setup, definitions and availability limits](docs/REAL_DATA_PIPELINE.md) and the [source audit](docs/audits/2026-10-29.md). Synthetic files described in the original proposal below are legacy software smoke-test assets only.
+
+---
+
 Title
 
 Federated Learning Framework for Privacy-Preserving Budget Forecasting and Welfare Leakage Detection in Indian Public Finance

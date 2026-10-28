@@ -1,0 +1,560 @@
+[
+  {
+    "file": "gst_statistics_index.html",
+    "url": "https://www.gst.gov.in/download/gststatistics",
+    "retrieved_at": "2026-10-28T18:53:51.633349+00:00",
+    "sha256": "b342afd860e3194048bf38b0e1951c792ee219818e8dc564fe30e2823450590d",
+    "bytes": 23079,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2018-19.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2018-19.xlsx",
+    "retrieved_at": "2026-10-28T18:53:51.712897+00:00",
+    "sha256": "2ead507315bde5831867dd9fb432580a16bc4619816988ac4e8a7ce6a37aa390",
+    "bytes": 45127,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2019-20.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2019-20.xlsx",
+    "retrieved_at": "2026-10-28T18:53:51.780902+00:00",
+    "sha256": "1c1fa7ef1e3f3a048f9b3fc7e36fd67a86479dfcfc2a0f6bd56f50b6e2db70d5",
+    "bytes": 61420,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2020-21.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2020-21.xlsx",
+    "retrieved_at": "2026-10-28T18:53:51.841032+00:00",
+    "sha256": "b9a7ec04d4c6ca361547f7040fd76dcf9e117dd6c166c44461540443138c95e3",
+    "bytes": 63195,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2021-22.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2021-22.xlsx",
+    "retrieved_at": "2026-10-28T18:53:51.906328+00:00",
+    "sha256": "95def477f888a91b4f8e75595ad3edf4d6a09078361f6ea1509133ad755fe5c0",
+    "bytes": 60615,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2022-23.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2022-23.xlsx",
+    "retrieved_at": "2026-10-28T18:53:51.969863+00:00",
+    "sha256": "739b50801b3a9945052a27f12b8016429fe80a2cb886c0cc6524298afd93f979",
+    "bytes": 61024,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2023-24.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2023-24.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.034749+00:00",
+    "sha256": "26a86a0bd3c917c9e5240d25d8556bdaa800e0fcae08960d33975707639f88cf",
+    "bytes": 61719,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2024-25.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2024-25.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.137289+00:00",
+    "sha256": "0b8f437f104c26c1a6c7566cdcc58d71a7caa1a2aa1b104d15b9825280af22c0",
+    "bytes": 64909,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2025-26.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2025-26.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.206826+00:00",
+    "sha256": "0071a702c04be0f06a2aeda39e57e78f4240fdcaea378db9e5b2e4df6519bc70",
+    "bytes": 62313,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "ewb-data-2026-27.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-2026-27.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.339792+00:00",
+    "sha256": "e250b58ebc74ec607ee32b74e65c369f27873fce2d2fd2628657d9667a98fc75",
+    "bytes": 33813,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2017-18.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2017-18.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.404454+00:00",
+    "sha256": "3d269ea3000637207f40e8f5752ce080874b80cb4456c00c5724e17ad6a15710",
+    "bytes": 37932,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2018-19.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2018-19.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.462343+00:00",
+    "sha256": "a3f08dd60086b5af921b4ca8757299e5365f96edfb4713b1b96bf6bda8b7da09",
+    "bytes": 46540,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2019-20.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2019-20.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.520754+00:00",
+    "sha256": "facb962a340f430868740f1d9308b7944b25ebb0d94f31c5f6b6b4cebd4e6b7f",
+    "bytes": 47123,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2020-21.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2020-21.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.588211+00:00",
+    "sha256": "a9f5cdba1734dfc0960e304a5bbb8bf98f7963ff37a375847adc6a7b0a3b3f19",
+    "bytes": 93642,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2021-22.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2021-22.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.648888+00:00",
+    "sha256": "9e68d4cfb86721a9c363759b641c4e01beb5ce07a29c9df848de09e3bfff7b87",
+    "bytes": 96680,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2022-23.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2022-23.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.724294+00:00",
+    "sha256": "49a228b8084c92b6199e1555e14459304595b5c75eb54b2c8b0b9c1f747f0702",
+    "bytes": 87306,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2023-24.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2023-24.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.785636+00:00",
+    "sha256": "0fb2395b32ac7754429de1d3c870b635e15af3ed971e3bcd30588ec03ec8879e",
+    "bytes": 87760,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2024-25.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2024-25.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.853854+00:00",
+    "sha256": "307c5ccd948e2f7a4afbdfce859f8974c9045de0de76eec05c8894ab47c40369",
+    "bytes": 83882,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2025-26.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2025-26.xlsx",
+    "retrieved_at": "2026-10-28T18:53:52.935250+00:00",
+    "sha256": "12698a45bb58b71b38019c08fbb2ca8dfe55d665fe44b8884f5998b8d138b644",
+    "bytes": 73110,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "statewise_GST_collection_2026-27.xlsx",
+    "url": "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/statewise_GST_collection_2026-27.xlsx",
+    "retrieved_at": "2026-10-28T18:53:53.008864+00:00",
+    "sha256": "c38e706b63e942b048683585d04022aae1693c48ef4b0303d1d252e76d1c4e9b",
+    "bytes": 44617,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_filters_2012_Current.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCpiFilterByLevelAndBaseYear?base_year=2012&level=Group&series_code=Current",
+    "retrieved_at": "2026-10-28T18:53:53.577101+00:00",
+    "sha256": "94a9be4dd53aee15d0dbddb787d7ea482083c42f8dc2b2823ad739ebb1e3f829",
+    "bytes": 5269,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_001.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=1&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:53:54.619314+00:00",
+    "sha256": "344ac78f6bf18e64cf1c3ed148eb50af791172e19c77622fc217fc813c123108",
+    "bytes": 37443,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_002.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=2&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:53:55.233200+00:00",
+    "sha256": "ed46f424c03294eb150f8f57f2a18ea863eb3e8ca51ce7ca4a5ab91af41a7605",
+    "bytes": 36863,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_003.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=3&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:53:56.084119+00:00",
+    "sha256": "6e061a1b46116e21d29b70d3ae67f7534e23f54a9b4c025e822c0386c8b6b2e2",
+    "bytes": 37473,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_004.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=4&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:53:57.043856+00:00",
+    "sha256": "13be753b6859263e8c3698ea9535aed727b16390633cf8454ae2125b84a7a8a7",
+    "bytes": 36801,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_005.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=5&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:53:57.691310+00:00",
+    "sha256": "86c294e0ff4c8f6d236a6566dcd934c0283d0a20cd83ee502ead668359fc5a99",
+    "bytes": 37387,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_006.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=6&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:53:58.521803+00:00",
+    "sha256": "117c8964852530814eb9fd78c1ab31cab230c00c0933dfde9859a49c3b116a3d",
+    "bytes": 36967,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_007.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=7&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:53:59.566143+00:00",
+    "sha256": "d7d84eba8b43c6000c90a2404ef918650cf13bd8584af79e751b0e2053aa36c2",
+    "bytes": 37284,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_008.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=8&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:00.182522+00:00",
+    "sha256": "d9e33f45516f49a054a2e3be19ad6e468e346e3c139634922463ac4214c823cb",
+    "bytes": 37125,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_009.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=9&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:01.007801+00:00",
+    "sha256": "c494dd206641b575d4bf4cf85f2e1eb84fb100e0a4e3b849552f8f45b585c188",
+    "bytes": 37108,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_010.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=10&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:01.892734+00:00",
+    "sha256": "96b1b8a122d9a1a330b9cde0cb70c7c11adcc3dd68152c066fa81e6776571a03",
+    "bytes": 37285,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_011.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=11&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:03.956320+00:00",
+    "sha256": "0e6773b38c11dc35117389b8e3a4bdd46b59fa4f6691148ae84416356504a18e",
+    "bytes": 36815,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_012.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=12&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:05.013906+00:00",
+    "sha256": "e39af7ed87ef313706a4fd794f4fec54b4d3001b077e89585d87524361b5b62c",
+    "bytes": 37423,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_013.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=13&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:05.941644+00:00",
+    "sha256": "5999ad016939e7c70ff710f30467a372b9812ecbd850d386d0c960455699defb",
+    "bytes": 37106,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_014.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=14&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:06.963477+00:00",
+    "sha256": "a8a156c9499055f5b7a79b21564d67ed8197c10c1842773c0defca669a2f9985",
+    "bytes": 37335,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_015.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=15&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:07.966897+00:00",
+    "sha256": "0c7a40a08930b4d3202f12e8857d49ed1b316e73d2752d4a4bfdece60e9497b1",
+    "bytes": 36931,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_016.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=16&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:08.797425+00:00",
+    "sha256": "4afb98bf8c4a5db88e6c585b070a38f9690946f6484ca7ca404c0fbaa7b25dc1",
+    "bytes": 37470,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_017.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=17&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:09.479296+00:00",
+    "sha256": "d68e365604577eb5db2f266228b490005f1f5585403fb606d852be7378bcbf8c",
+    "bytes": 36798,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_018.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=18&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:10.334120+00:00",
+    "sha256": "267bc6c45f952dfad99a30db45536bafdab3a840291d5cc6e4f6515b86254418",
+    "bytes": 37464,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_019.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=19&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:11.222087+00:00",
+    "sha256": "528c8931e521a745ffb0082ac6e3b538d62edec663d7f2ecf44721ab4725831c",
+    "bytes": 36911,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_020.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=20&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:12.177314+00:00",
+    "sha256": "5738844f74d31c629653c4cf1c7055f2ede3fceb6c1c5d2eee355ec702c68985",
+    "bytes": 37354,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_021.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=21&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:13.112112+00:00",
+    "sha256": "4ef9c54547ec62c6be29631bed20c92d92c0f9dcb6b3bc857182142e7d971476",
+    "bytes": 37055,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_022.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=22&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:14.130528+00:00",
+    "sha256": "1e04ae0003d78950ecbb1e8ac9c3b6e6b833090c2efbfc9bdcc65009e518b42a",
+    "bytes": 37162,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_023.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=23&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:15.048173+00:00",
+    "sha256": "2bc9e22a263d327ceea2d773d7688e808fe811514a408445ad135529f267aa0b",
+    "bytes": 37257,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_024.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=24&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:15.761877+00:00",
+    "sha256": "ba311649c832846ed89b5193fda3e4281d37b08a2bf4b1b5a04f7e08e8fa358e",
+    "bytes": 36988,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_025.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=25&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:16.302431+00:00",
+    "sha256": "7d01103c383a2f3e3b5a791804307d30a189150151f4c6846a3333a919698b90",
+    "bytes": 37426,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_026.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=26&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:17.218682+00:00",
+    "sha256": "83a160d2ce9ebc67e07970cc49b7f2317876919235e4ba22390ac3022545a146",
+    "bytes": 36866,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_027.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=27&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:18.073195+00:00",
+    "sha256": "be56e67e9c0f4cb117c3369755d65bcaba272e162dd8da994192b99dd1e3b4bf",
+    "bytes": 37184,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_028.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=28&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:18.591702+00:00",
+    "sha256": "de3648b282e37d3c586a3a619920292c0a07ab9b11bd6b40485d3f094a201e0b",
+    "bytes": 36428,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2012_Current_029.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&sector_code=3&limit=200&page=29&Format=JSON&group_code=0",
+    "retrieved_at": "2026-10-28T18:54:19.121861+00:00",
+    "sha256": "b4e2e53f2a46ff073466ac46e14663fb3ea5f45984b5aff7d57b4e68c3b11afe",
+    "bytes": 17965,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_filters_2024_Current.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCpiFilterByLevelAndBaseYear?base_year=2024&level=Group&series_code=Current",
+    "retrieved_at": "2026-10-28T18:54:20.699960+00:00",
+    "sha256": "92b55ab9ce80930300f07d1b8c8f6f4a2323cc43b5ae5fd0fd012890128d4954",
+    "bytes": 79476,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Current_001.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Current&sector_code=3&limit=100&page=1&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:21.332072+00:00",
+    "sha256": "ff02cfa7bed7ebe74808b1a5d3bea1fa3563f59fe871a601bf780ccdc16d2536",
+    "bytes": 26262,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Current_002.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Current&sector_code=3&limit=100&page=2&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:22.314247+00:00",
+    "sha256": "27e7cb183353dfb3776895c5ddbb4d95bde77c787834ec65bc92abd3ea33aa80",
+    "bytes": 26020,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Current_003.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Current&sector_code=3&limit=100&page=3&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:22.954035+00:00",
+    "sha256": "c0336fb51559f35a36b0c3791ce100e78b6498d675cfc4b8dad9987ff6fd04a2",
+    "bytes": 26258,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Current_004.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Current&sector_code=3&limit=100&page=4&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:23.537462+00:00",
+    "sha256": "59fc4bc215182066d6997e7fc70714c8c5444c5f39cc60761bf2270905f2c800",
+    "bytes": 26200,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Current_005.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Current&sector_code=3&limit=100&page=5&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:24.012886+00:00",
+    "sha256": "e997f3c66c9f3c5fc7ae78659d2fb4a4d2e5d3c2f7100f484dce452ef2cffdc5",
+    "bytes": 26210,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Current_006.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Current&sector_code=3&limit=100&page=6&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:24.600608+00:00",
+    "sha256": "b00f63bac96aa52b3f55439990c45f0759f1c01b594f5d049713f78e930e3f72",
+    "bytes": 25862,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Current_007.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Current&sector_code=3&limit=100&page=7&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:25.391665+00:00",
+    "sha256": "4b3d95bd60ca6dcc1d89506d37185892aab0a04ffdc62ace391340ca782209cf",
+    "bytes": 25846,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Current_008.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Current&sector_code=3&limit=100&page=8&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:25.895608+00:00",
+    "sha256": "1fb1453e2041143d802dc88beda0532933690fcfcc694a702f0a1e2cb79bc7e9",
+    "bytes": 20178,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_filters_2024_Back.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCpiFilterByLevelAndBaseYear?base_year=2024&level=Group&series_code=Back",
+    "retrieved_at": "2026-10-28T18:54:26.377082+00:00",
+    "sha256": "c10553e1a0520c7f7de14658888c5744a58658d023d43a90caaae26b68c6509a",
+    "bytes": 1178,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Back_001.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Back&sector_code=3&limit=100&page=1&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:27.007074+00:00",
+    "sha256": "13c2e8aa3e1dbda76a9d9208287c3a2cb877f210bdd36ad103f2a8333dae6008",
+    "bytes": 25670,
+    "publication_date": null,
+    "historical_vintage": false
+  },
+  {
+    "file": "cpi_2024_Back_002.json",
+    "url": "https://api.mospi.gov.in/api/cpi/getCPIData?base_year=2024&series=Back&sector_code=3&limit=100&page=2&Format=JSON&division_code=0",
+    "retrieved_at": "2026-10-28T18:54:27.414235+00:00",
+    "sha256": "d6a82179506854aaa7c22cfd4af5ad17e3aa1708cefdd5bfbe4006b825f5071e",
+    "bytes": 11335,
+    "publication_date": null,
+    "historical_vintage": false
+  }
+]
