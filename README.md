@@ -1,237 +1,62 @@
-## Real-data forecasting pipeline
+# State-level GST forecasting with federated learning
 
-The current research data path uses official GST, E-Way Bill and MoSPI CPI exports. See [setup, definitions and availability limits](docs/REAL_DATA_PIPELINE.md) and the [source audit](docs/audits/2026-10-29.md). Synthetic files described in the original proposal below are legacy software smoke-test assets only.
+IIT Patna M.Tech research project: forecast monthly gross GST collections for Indian states and union territories, treating each state as a [Flower](https://flower.ai/) federated learning client, and study personalized federated learning (FedAvg, FedProx, APFL and the proposed FH-PFL) under state heterogeneity.
 
----
+The work follows the 8-month roadmap in [#30](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/30). The original Semester 3 proposal is archived in [docs/PROPOSAL.md](docs/PROPOSAL.md).
 
-Title
+## Status
 
-Federated Learning Framework for Privacy-Preserving Budget Forecasting and Welfare Leakage Detection in Indian Public Finance
+| Milestone | State |
+|---|---|
+| M1 — Dataset feasibility | Official GST, E-Way Bill and CPI pipeline acquired, audited and tested ([#13](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/13) closed; [#14](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/14) remaining items open) |
+| M2 — Forecasting baselines | Not started ([#15](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/15)–[#17](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/17)) |
+| M3 onwards — Flower baselines, personalization, evaluation | Not started |
 
-⸻
+The `fl_experiment/` Flower prototype and `data-generator/` are legacy synthetic smoke-test code. They do not currently run (repair is tracked in [#18](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/18)) and produce no thesis evidence.
 
-1. Introduction & Motivation
+No forecasting results or privacy guarantees are claimed yet. Federation over public data is a simulation, not a deployed privacy mechanism.
 
-India’s public finance system operates in a federal structure, where financial data related to budget allocation, GST revenue, and welfare schemes is distributed across the Centre, States, and districts.
-Due to privacy, legal, and political constraints, raw fiscal data cannot be freely centralized, leading to:
-	•	Inaccurate national revenue forecasts
-	•	Delayed detection of welfare leakages
-	•	Limited data-driven decision-making
+## Quickstart
 
-Traditional centralized machine learning approaches are not suitable in this setting due to data sensitivity and compliance requirements.
+Requires Python 3.11+ (pinned in `.python-version`) and `curl`. [uv](https://docs.astral.sh/uv/) is recommended; some Homebrew Python builds have a broken `pyexpat` that crashes pip.
 
-Federated Learning (FL) enables collaborative model training without sharing raw data, making it a promising solution for Indian public finance analytics.
+```sh
+scripts/setup_venv.sh
+. .venv/bin/activate
+python -m unittest discover -s tests -v
+```
 
-⸻
+Rebuild the dataset from official sources (each command needs a new, empty output directory):
 
-2. Problem Statement
+```sh
+python -m data_pipeline.acquire --output data/raw/my-vintage
+python -m data_pipeline.normalize --raw data/raw/my-vintage --output data/processed/my-vintage
+python -m data_pipeline.panel --processed data/processed/my-vintage --output data/reports/strict --cpi-base 2012
+```
 
-How can we design a privacy-preserving machine learning framework that:
-	1.	Accurately forecasts budget and GST revenue across Indian states
-	2.	Detects welfare leakage patterns (DBT / MNREGA-style schemes)
-	3.	Operates without centralized access to sensitive fiscal data
+Raw and processed exports stay out of Git under `data/`.
 
-while handling non-IID data distributions inherent in India’s federal structure?
+## Data definitions that matter
 
-⸻
+- **Target:** `target_gst_excluding_cess_crore` (CGST + SGST + IGST, domestic, gross of refunds, INR crore) is the historically consistent outcome. The published total includes cess only through FY2024–25, so it is kept separately and is not a consistent series.
+- **Inputs:** six E-Way Bill features (counts and assessable values for intra-state, inter-state outward and inter-state inward flows) and CPI General Combined. CPI bases 2012 and 2024 are never spliced.
+- **Availability:** strict mode only uses values known to be published by the forecast date. Because the downloaded files are current revisions without original release dates, strict mode currently yields zero complete historical rows. The opt-in `assumed_lag_latest_vintage` mode (45-day lag) yields 2,858 rows on CPI base 2012 and is a retrospective sensitivity analysis, not a real-time backtest.
 
-3. Objectives
+Details: [docs/REAL_DATA_PIPELINE.md](docs/REAL_DATA_PIPELINE.md) and the [29 October 2026 audit](docs/audits/2026-10-29.md).
 
-The objectives of this project are:
-	1.	To design a Federated Learning architecture suitable for Indian public finance data
-	2.	To implement federated revenue forecasting models across states
-	3.	To develop federated anomaly detection models for welfare leakage detection
-	4.	To compare performance of federated vs centralized approaches
-	5.	To analyze privacy–accuracy trade-offs in fiscal FL systems
+## Repository layout
 
-⸻
+```text
+data_pipeline/          Official-source acquisition, normalization, geography mapping, panel joins, PDF checks
+tests/                  Offline tests with official regression fixtures
+docs/                   Pipeline guide, dated audits, archived proposal
+fl_experiment/          Legacy Flower prototype on synthetic data (broken, see #18)
+data-generator/         Legacy synthetic data generator (smoke tests only)
+scripts/setup_venv.sh   Python 3.11 environment setup
+```
 
-4. Scope of Work
+CI runs the offline tests (`.github/workflows/data-pipeline.yml`) and Pylint on `data_pipeline/` and `tests/` (`.github/workflows/pylint.yml`).
 
-This project focuses on two core public finance tasks:
+## License
 
-4.1 Federated Budget & GST Revenue Forecasting
-	•	Each state acts as an independent FL client
-	•	Local models are trained on state-level revenue data
-	•	A central FL server aggregates model updates
-	•	No raw fiscal data is shared
-
-4.2 Federated Welfare Leakage Detection
-	•	District/state-level nodes train local anomaly detection models
-	•	Models identify unusual beneficiary or expenditure patterns
-	•	Aggregated model learns national leakage signatures
-
-⸻
-
-5. Methodology
-
-5.1 System Architecture
-
-State / District Nodes
- ├─ Local Fiscal Data
- ├─ Local ML Models
- ↓ (Encrypted Model Updates)
-Federated Aggregation Server
- ↓
-Global Fiscal Intelligence Model
-
-5.2 Machine Learning Models
-	•	Revenue Forecasting:
-	•	LSTM
-	•	XGBoost
-	•	Welfare Leakage Detection:
-	•	Isolation Forest
-	•	Autoencoders
-
-5.3 Federated Learning Setup
-	•	FL framework: Flower / FedML
-	•	Aggregation: FedAvg
-	•	Evaluation under non-IID data distributions
-
-⸻
-
-6. Dataset Description
-
-Due to restricted access to real fiscal data, the project will use:
-	•	Synthetic datasets modeled on:
-	•	GST revenue trends
-	•	State budget allocations
-	•	Welfare beneficiary statistics
-
-Dataset characteristics:
-	•	State-wise heterogeneity
-	•	Seasonal patterns
-	•	Controlled anomaly injection
-
-⸻
-
-7. Evaluation Metrics
-
-Revenue Forecasting
-	•	RMSE
-	•	MAE
-	•	MAPE
-
-Welfare Leakage Detection
-	•	Precision
-	•	Recall
-	•	F1-score
-	•	Anomaly detection rate
-
-System Evaluation
-	•	Communication overhead
-	•	Convergence rate
-	•	Privacy exposure analysis
-
-⸻
-
-8. Expected Outcomes
-	1.	A working federated learning prototype for public finance analytics
-	2.	Quantitative evidence showing FL effectiveness under non-IID fiscal data
-	3.	Demonstration of privacy-preserving governance intelligence
-	4.	Research insights applicable to Indian budget planning and monitoring
-	5.	Foundation for 4th semester advanced auditing system
-
-5.2 Machine Learning Models
-	•	Revenue Forecasting:
-	•	LSTM
-	•	XGBoost
-	•	Welfare Leakage Detection:
-	•	Isolation Forest
-	•	Autoencoders
-
-5.3 Federated Learning Setup
-	•	FL framework: Flower / FedML
-	•	Aggregation: FedAvg
-	•	Evaluation under non-IID data distributions
-
-⸻
-
-6. Dataset Description
-
-Due to restricted access to real fiscal data, the project will use:
-	•	Synthetic datasets modeled on:
-	•	GST revenue trends
-	•	State budget allocations
-	•	Welfare beneficiary statistics
-
-Dataset characteristics:
-	•	State-wise heterogeneity
-	•	Seasonal patterns
-	•	Controlled anomaly injection
-
-⸻
-
-7. Evaluation Metrics
-
-Revenue Forecasting
-	•	RMSE
-	•	MAE
-	•	MAPE
-
-Welfare Leakage Detection
-	•	Precision
-	•	Recall
-	•	F1-score
-	•	Anomaly detection rate
-
-System Evaluation
-	•	Communication overhead
-	•	Convergence rate
-	•	Privacy exposure analysis
-
-⸻
-
-8. Expected Outcomes
-	1.	A working federated learning prototype for public finance analytics
-	2.	Quantitative evidence showing FL effectiveness under non-IID fiscal data
-	3.	Demonstration of privacy-preserving governance intelligence
-	4.	Research insights applicable to Indian budget planning and monitoring
-	5.	Foundation for 4th semester advanced auditing system
-
-9. Tools & Technologies
-	•	Programming Language: Python
-	•	FL Framework: Flower / FedML
-	•	ML Libraries: PyTorch / TensorFlow, Scikit-learn
-	•	Visualization: Matplotlib, Seaborn
-	•	Platform: Linux / Cloud VM
-
-⸻
-
-10. Timeline (3rd Semester)
-
-Month
-Activity
-Month 1
-Literature review, dataset design
-Month 2
-FL framework implementation
-Month 3
-Model training & experiments
-Month 4
-Evaluation, report writing
-
-11. Expected Contribution
-
-This project contributes to:
-	•	Federated Learning research in public finance
-	•	Privacy-aware governance analytics
-	•	India-specific fiscal ML systems
-	•	Foundation for PhD-level research and policy pilots
-
-⸻
-
-12. Future Extension (4th Semester)
-	•	Federated continuous auditing
-	•	Fiscal risk scoring
-	•	Explainable FL for policy decisions
-	•	Integration with GST, welfare, and budget systems
-
-⸻
-
-Keywords
-
-Federated Learning, Public Finance, Indian Budget, GST, Welfare Leakage, Privacy-Preserving Machine Learning, GovTech
-
-
-
+See [LICENSE](LICENSE).

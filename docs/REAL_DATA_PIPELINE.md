@@ -14,12 +14,11 @@ Dataful exports require sign-in. The official workbooks provide the acquisition 
 
 ## Reproduce
 
-Use Python 3.11+ and a system `curl` executable with HTTPS certificate verification enabled.
+Use Python 3.11+ and a system `curl` executable with HTTPS certificate verification enabled. `scripts/setup_venv.sh` creates `.venv` with [uv](https://docs.astral.sh/uv/) when available, otherwise with a working local `python3.11`+.
 
 ```sh
-python -m venv .venv
+scripts/setup_venv.sh
 . .venv/bin/activate
-python -m pip install -r requirements-data.txt
 python -m data_pipeline.acquire --output data/raw/my-vintage
 python -m data_pipeline.normalize --raw data/raw/my-vintage --output data/processed/my-vintage
 python -m data_pipeline.panel --processed data/processed/my-vintage --output data/reports/strict --cpi-base 2012
@@ -30,7 +29,7 @@ Acquisition/normalization require new empty output directories. A failed downloa
 
 The processed directory contains `gst.csv`, `ewb.csv`, `cpi.csv`, `state_mapping_audit.csv` and `reconciliation.json`. Missing observations stay missing. No target interpolation, synthetic replacement, train/test scaling or fitting occurs here.
 
-The optional CI workflow is supplied at `docs/ci/data-pipeline.yml`. It is not active: the current GitHub OAuth token cannot create workflows without the `workflow` scope. A maintainer with that permission can move it to `.github/workflows/data-pipeline.yml`. Local tests are the validation for this change; the pre-existing Pylint workflow remains unchanged.
+CI runs these offline tests in `.github/workflows/data-pipeline.yml`, and `.github/workflows/pylint.yml` lints `data_pipeline/` and `tests/` on Python 3.11. The legacy `fl_experiment/` and `data-generator/` code is not linted until it is repaired (#18).
 
 ## Definitions that affect the thesis
 
