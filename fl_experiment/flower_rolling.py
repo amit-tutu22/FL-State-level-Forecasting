@@ -23,15 +23,15 @@ import torch
 from flwr.simulation import start_simulation
 
 from fl_experiment.client import make_origin_client_fn, write_origin_cache
-from fl_experiment.evaluate_test import require_selection, settings_from
+from fl_experiment.evaluate_test import add_second_look_arguments, frozen_folds, settings_from
 from fl_experiment.federated import initial_parameters, make_job, origin_row
-from fl_experiment.folds import build_folds, protocol_hash
+from fl_experiment.folds import protocol_hash
 from fl_experiment.local_gru import compute_info
 from fl_experiment.reporting import collate, ranked_states, write_json, write_rows
 from fl_experiment.baselines import summarize_model
 from fl_experiment.rolling import federated_clients, origin_months, states_for_month
 from fl_experiment.server import OriginRecorder, build_origin_strategy
-from fl_experiment.state_data import add_data_arguments, records_from_arguments
+from fl_experiment.state_data import add_data_arguments
 
 RESULTS = Path(__file__).resolve().parent / "results"
 RAY_ARGS = {"include_dashboard": False, "ignore_reinit_error": True, "log_to_driver": False}
@@ -121,10 +121,7 @@ def parse_args():
     """Parse the Flower rolling-origin options. There is no hyperparameter grid."""
     parser = argparse.ArgumentParser(description=__doc__)
     add_data_arguments(parser)
-    parser.add_argument("--selection", type=Path, required=True)
-    parser.add_argument("--split", choices=("val", "test"), default="val")
-    parser.add_argument("--second-look", action="store_true",
-                        help="required for --split test: the test year was already scored")
+    add_second_look_arguments(parser)
     parser.add_argument("--methods", nargs="+", default=["fedavg", "fedprox", "apfl"],
                         choices=("fedavg", "fedprox", "apfl"))
     parser.add_argument("--reference", type=Path, help="in-process metrics.json to compare")
@@ -166,17 +163,10 @@ def _summaries(rows):
 def main():
     """Run the frozen federated methods through Flower and write the record."""
     args = parse_args()
-    if args.split == "test" and not args.second_look:
-        raise SystemExit("The test year was already scored. Pass --second-look to re-score it.")
-    if not args.selection.is_file():
-        raise SystemExit(f"selection file not found: {args.selection}")
     logging.getLogger("flwr").setLevel(logging.WARNING)
     torch.set_num_threads(1)
     started = time.perf_counter()
-    selection = json.loads(args.selection.read_text(encoding="utf-8"))
-    records, feature_names, val_start, test_start = records_from_arguments(args)
-    folds = build_folds(records, feature_names, val_start, test_start, args.min_train, args.window)
-    require_selection(selection, folds)
+    selection, folds = frozen_folds(args)
     output = args.output_dir or RESULTS / f"flower-{args.split}"
     output.mkdir(parents=True, exist_ok=True)
     rows, rounds = _run(args, folds, selection, output)

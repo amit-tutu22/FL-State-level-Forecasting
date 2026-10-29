@@ -71,6 +71,18 @@ def ranked_states(by_state, key, limit=5):
     ]
 
 
+def model_summaries(rows):
+    """Seed-collated summaries, largest-RMSE states and per-state tables, by model."""
+    summaries, by_state = {}, {}
+    for model, runs in summarize_rows(rows).items():
+        summaries[model], by_state[model] = collate([(item[1], item[2]) for item in runs])
+    return {
+        "summaries": summaries,
+        "largest_rmse": {name: ranked_states(states, "rmse") for name, states in by_state.items()},
+        "per_state": by_state,
+    }
+
+
 def summarize_rows(rows):
     """summarize_model for rows that may carry several models and seeds."""
     grouped = defaultdict(list)

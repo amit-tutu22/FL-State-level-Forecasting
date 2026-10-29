@@ -42,6 +42,27 @@ def require_selection(selection, folds):
         )
 
 
+def add_second_look_arguments(parser):
+    """--selection, --split and --second-look, for runners that reuse frozen settings."""
+    parser.add_argument("--selection", type=Path, required=True)
+    parser.add_argument("--split", choices=("val", "test"), default="val")
+    parser.add_argument("--second-look", action="store_true",
+                        help="required for --split test: the test year was already scored")
+
+
+def frozen_folds(args):
+    """Apply the test-year gate, then return the frozen selection and its matching folds."""
+    if args.split == "test" and not args.second_look:
+        raise SystemExit("The test year was already scored. Pass --second-look to re-score it.")
+    if not args.selection.is_file():
+        raise SystemExit(f"selection file not found: {args.selection}")
+    selection = json.loads(args.selection.read_text(encoding="utf-8"))
+    records, feature_names, val_start, test_start = records_from_arguments(args)
+    folds = build_folds(records, feature_names, val_start, test_start, args.min_train, args.window)
+    require_selection(selection, folds)
+    return selection, folds
+
+
 def settings_from(selection, seed):
     """Training settings stored at the freeze. The seed is the only change."""
     return {
