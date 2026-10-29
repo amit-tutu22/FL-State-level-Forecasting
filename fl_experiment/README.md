@@ -92,6 +92,16 @@ python -m fl_experiment.flower_rolling --split val \
 
 The test command refuses to start if the selection file is missing or the fold hash differs. It does not search settings again. The rules are in [docs/PROTOCOL.md](../docs/PROTOCOL.md). APFL's mixing step is described in [docs/methods/apfl.md](../docs/methods/apfl.md).
 
+## State heterogeneity
+
+```sh
+python -m fl_experiment.heterogeneity --panel data/reports/lagged45-2012/panel.csv \
+    --validation fl_experiment/results/real-2026-10-29/protocol/metrics.json \
+    --test fl_experiment/results/real-2026-10-29/protocol-test/metrics.json
+```
+
+This command describes each state's series before April 2024: level, volatility, seasonal strength, history, and the 2020 dip. It reports Spearman correlations between those descriptors and the relative RMSE differences between methods. It trains nothing. The record is [2026-10-29-heterogeneity.md](../docs/experiments/2026-10-29-heterogeneity.md).
+
 ## Simulation (single machine, smoke only)
 
 ```sh

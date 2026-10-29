@@ -151,6 +151,17 @@ GST history alone beat GST plus E-Way Bills plus CPI (446.9 against 470.4). FedP
 
 **Defend:** the federated results are Flower results, and the conclusions in sections 9 and 10 hold for either path. **State alongside it:** the Flower re-score of the test year is a second look at months already reported. It checks the execution path, and it does not replace the first test run.
 
+## 12. Where the methods differ, by state
+
+[experiments/2026-10-29-heterogeneity.md](experiments/2026-10-29-heterogeneity.md) (issue [#20](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/20)). Each state is described by its series before April 2024: level, volatility, seasonal strength, history, and the 2020 dip. Each description is set against relative RMSE differences in both evaluation years. Spearman correlations over 32 states are reported as description only.
+
+- SARIMA's lead over the best neural method grows with state size (ρ = −0.59 on validation and −0.48 on test). The median lead is 35% in the 16 largest states and about 20% in the 16 smallest.
+- APFL beats the local GRU in both years in 11 states, mostly large ones such as Maharashtra, Gujarat and Uttar Pradesh. On the test year it is worse than local in most small states.
+- Stronger seasonality goes with less APFL benefit. The most seasonal series are also the smallest and most volatile, so these factors cannot be separated with 32 states.
+- History length varies only from 61 to 64 months, so it explains nothing.
+
+**Defend:** heterogeneity is real and has a direction: the crore error, and SARIMA's advantage, sit in the large states. **State alongside it:** these patterns come from one validation year and one already-opened test year. They do not support choosing a method per state.
+
 ## Claims that are not available for the defense
 
 | Claim | Status |
