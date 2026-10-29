@@ -2,7 +2,7 @@
 
 This is the only setup that may be quoted as a comparison. It is the rolling-origin design already used for seasonal naive, SARIMA and the local GRU. Fixed-split commands (`fl_experiment.local_gru`, `fl_experiment.run_fl_simulation`, `fl_experiment.centralized_baseline`) are software smoke tests. They early-stop or score the whole validation year, and they cannot write a result for the thesis.
 
-FH-PFL has no update rule yet. It is not part of this protocol and has no implementation.
+FH-PFL has a draft definition in [methods/fh_pfl.md](methods/fh_pfl.md). It has no implementation and no scores. The GST-only confirmation amendment it describes has not been made yet.
 
 ## Data and target
 
