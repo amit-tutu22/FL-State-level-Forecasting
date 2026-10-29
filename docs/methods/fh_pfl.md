@@ -1,6 +1,8 @@
 # FH-PFL — draft specification (#21)
 
 > **Status: draft. Not implemented, not tuned, not scored.** The definition choices below were agreed on 29 October 2026 (see [Agreed decisions](#agreed-decisions)). This is a proposed design, not an established or validated algorithm, and nothing here is a claim of novelty; see the [literature matrix](../literature/fh_pfl_matrix.md).
+>
+> **Closest prior work.** FedAP (Lu et al., 2022) already aggregates with a fixed similarity matrix computed from data statistics, using a self-weight λ plus \((1-\lambda)\) times normalised weights on the others, and keeps some layers private. HeurFedAMP (Huang et al., 2021) uses the same self-weight-plus-softmax form, with model-parameter similarity. FH-PFL differs in its similarity input (economic revenue profiles recomputed at each origin) and in choosing \(\alpha_i\) per state on the holdout. It is a test of whether that input helps, not a new aggregation rule.
 
 FH-PFL (Federated Heterogeneity-Aware Personalized Learning) changes how much each state shares. FedAvg gives every state the same global model. FH-PFL gives each state its own aggregate of the other states' encoders, weighted by how similar their training-period revenue behaviour is, and keeps a private prediction head.
 
