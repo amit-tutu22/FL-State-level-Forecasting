@@ -89,5 +89,5 @@ No weights or gradients left a client. The sums were computed in the clear insid
 - It is a retrospective run on an assumed-lag panel, not a real-time backtest.
 - State GST is published. "Private" is a simulated setting.
 - No secure-aggregation protocol was run, and no privacy guarantee is made.
-- The test year and the April–August 2026 confirmation months were not scored.
+- The test year and the April–August 2026 confirmation months were not scored. On 30 October 2026 it was decided not to use the confirmation months for v2, because its federation claim had already failed. They are kept unopened for a design that passes validation.
 - Other papers already have top-down forecasting with learned proportions, but those methods are centralized. The only new element tested here, federated coupling during training, did not help.
