@@ -145,6 +145,12 @@ GST history alone beat GST plus E-Way Bills plus CPI (446.9 against 470.4). FedP
 
 **Defend:** the held-out year still ranks SARIMA first, and it still ranks a single pooled GRU last. **State alongside it:** APFL's validation advantage over the seasonal naive disappears. Its test RMSE is 509 against 392, and its equal-state MASE is 1.21. It beats SARIMA in one state, Lakshadweep, where both errors are about 2 crore. The local GRU has the lowest MAPE (13.97%) and a worse RMSE than the seasonal naive. Maharashtra still decides the crore error.
 
+## 11. The federated numbers do not depend on how they were executed
+
+[experiments/2026-10-29-flower-agreement.md](experiments/2026-10-29-flower-agreement.md). FedAvg, FedProx and APFL were first computed in one process. They were then rerun as Flower 1.11 clients, with one Flower simulation per origin. The client update is the same code in both paths. Flower's FedProx strategy only sends `mu`, and the client adds the penalty. With dropout switched off, both paths give the same predictions on a synthetic origin. With the frozen settings on the real panel, they agree within the seed spread. On validation, Flower gives APFL 421.0 against 416.3, and FedAvg 472.1 against 469.9. On the test year, labelled a second look, APFL is 510.2 against 509.1.
+
+**Defend:** the federated results are Flower results, and the conclusions in sections 9 and 10 hold for either path. **State alongside it:** the Flower re-score of the test year is a second look at months already reported. It checks the execution path, and it does not replace the first test run.
+
 ## Claims that are not available for the defense
 
 | Claim | Status |
