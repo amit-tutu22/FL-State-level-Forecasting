@@ -47,3 +47,13 @@ The chosen values are written to `selection.json` with a hash of the folds. The 
 - **FedAvg.** Sample-weighted average of the clients' parameters, one client per eligible state. The kept round is the best holdout round.
 - **FedProx.** The same average, with client loss `MSE + (mu / 2) ||w - w_global||^2`. `mu = 0` is required to match FedAvg.
 - **APFL.** Deng, Kamani and Mahdavi (2020), adapted as described in [methods/apfl.md](methods/apfl.md). The scored model is `alpha * local + (1 - alpha) * global`. `alpha` moves on the client's holdout loss and stays in `[0, 1]`.
+
+## Two execution paths for the federated methods
+
+FedAvg, FedProx and APFL can run in one process (`fl_experiment.compare`, `fl_experiment.evaluate_test`) or as Flower 1.11 clients, one Flower simulation per origin (`fl_experiment.flower_rolling`). Both paths call the same client update in `fl_experiment/federated.py`. In the Flower path, the FedProx strategy only sends `proximal_mu`, and the client applies the penalty. APFL keeps its mixing weight in the node's context state.
+
+Either path may be quoted, under two checks. With dropout 0, the two paths must give the same predictions on a synthetic origin. With the frozen settings on the real validation year, their equal-state RMSE must agree within the seed standard deviation. Dropout draws differ between processes, so exact agreement is not expected there.
+
+## The test year after 29 October 2026
+
+April 2025 through March 2026 was scored once, on 29 October 2026, under `docs/experiments/2026-10-29-selection.json`. Any later scoring of those months, by a new method or by a different execution path, is a second look. It must be labelled that way, and it may not change a frozen setting.

@@ -79,6 +79,17 @@ python -m fl_experiment.evaluate_test --confirm-frozen \
     --panel data/reports/lagged45-2012/panel.csv
 ```
 
+The same frozen FedAvg, FedProx and APFL settings also run as Flower clients, one Flower simulation per origin:
+
+```sh
+python -m fl_experiment.flower_rolling --split val \
+    --selection docs/experiments/2026-10-29-selection.json \
+    --reference fl_experiment/results/real-2026-10-29/protocol/metrics.json \
+    --source panel --allow-assumed-vintages --panel data/reports/lagged45-2012/panel.csv
+```
+
+`OriginClient` in `client.py` calls the update functions in `federated.py`, so both paths share the maths. Flower's FedProx strategy only sends `proximal_mu`; the client applies the penalty. APFL keeps `alpha` in the node's context state. `--reference` prints the agreement with the in-process run. `--split test` needs `--second-look`, because the test year has already been scored. The agreement record is [2026-10-29-flower-agreement.md](../docs/experiments/2026-10-29-flower-agreement.md).
+
 The test command refuses to start if the selection file is missing or the fold hash differs. It does not search settings again. The rules are in [docs/PROTOCOL.md](../docs/PROTOCOL.md). APFL's mixing step is described in [docs/methods/apfl.md](../docs/methods/apfl.md).
 
 ## Simulation (single machine, smoke only)

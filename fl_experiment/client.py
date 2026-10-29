@@ -5,16 +5,25 @@ Standalone (one process per state, after `run_fl_simulation --prepare-only`):
 """
 
 import argparse
+import json
 from collections import OrderedDict
+from pathlib import Path
 
 import flwr as fl
 import numpy as np
 import torch
-from flwr.common import Context
+from flwr.common import ConfigsRecord, Context
 
+from fl_experiment.federated import (
+    client_holdout_rmse,
+    client_origin_prediction,
+    client_step,
+)
 from fl_experiment.metrics import regression_metrics
 from fl_experiment.model import RevenueModel
 from fl_experiment.state_data import load_cached_client
+
+BLOCKS = ("fit", "early_stop", "origin")
 
 
 class StateClient(fl.client.NumPyClient):
@@ -68,6 +77,99 @@ class StateClient(fl.client.NumPyClient):
         )
         metrics["state_id"] = self.data.state_id
         return loss, len(x), metrics
+
+
+def write_origin_cache(clients, directory, settings, job):
+    """Write one origin's per-state arrays, so Ray workers can load their own state."""
+    directory = Path(directory)
+    directory.mkdir(parents=True, exist_ok=True)
+    states = []
+    for index, client in enumerate(clients):
+        arrays = {}
+        for block in BLOCKS:
+            arrays[f"{block}_x"], arrays[f"{block}_y"] = client[block]
+        np.savez(directory / f"client_{index}.npz", **arrays)
+        states.append({
+            key: client[key]
+            for key in ("state_id", "target_month", "actual", "naive", "y_mean", "y_std")
+        })
+    manifest = {"states": states, "settings": settings, "job": job}
+    (directory / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    return directory
+
+
+def load_origin_cache(directory, partition_id):
+    """Return (client, settings, job) for one partition of an origin cache."""
+    directory = Path(directory)
+    manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
+    client = dict(manifest["states"][partition_id])
+    with np.load(directory / f"client_{partition_id}.npz") as arrays:
+        for block in BLOCKS:
+            client[block] = (arrays[f"{block}_x"], arrays[f"{block}_y"])
+    return client, manifest["settings"], manifest["job"]
+
+
+class OriginClient(fl.client.NumPyClient):
+    """One state at one rolling origin. The update maths lives in `federated.py`.
+
+    FedProx reads `proximal_mu` from the fit config. APFL keeps its mixing
+    weight in the node's context state, so it carries over between rounds.
+    """
+
+    def __init__(self, client, settings, job, node):
+        torch.set_num_threads(1)
+        self.client = client
+        self.settings = settings
+        self.job = job
+        self.node = node
+        self.n_features = int(client["fit"][0].shape[-1])
+
+    def _alpha(self):
+        record = self.node["context"].state.configs_records.get("apfl")
+        return float(record["alpha"]) if record else self.job["alpha_init"]
+
+    def _scores(self, parameters):
+        return {
+            "state_id": self.client["state_id"],
+            "holdout_rmse": client_holdout_rmse(
+                parameters, self.client, self.n_features, self.settings
+            ),
+            "prediction": client_origin_prediction(
+                parameters, self.client, self.n_features, self.settings
+            ),
+        }
+
+    def fit(self, parameters, config):
+        server_round = int(config.get("server_round", 0))
+        torch.manual_seed(
+            self.settings["seed"] * 1_000_003 + server_round * 1_009 + self.node["partition"]
+        )
+        job = dict(self.job, mu=float(config.get("proximal_mu", 0.0)))
+        local, personal, alpha = client_step(
+            parameters, self.client, self._alpha(), self.n_features, self.settings, job
+        )
+        metrics = {}
+        if job["personalize"]:
+            self.node["context"].state.configs_records["apfl"] = ConfigsRecord({"alpha": alpha})
+            metrics = {**self._scores(personal), "alpha": alpha}
+        return local, len(self.client["fit"][0]), metrics
+
+    def evaluate(self, parameters, config):
+        scores = self._scores(parameters)
+        return scores["holdout_rmse"], len(self.client["early_stop"][0]), scores
+
+
+def make_origin_client_fn(cache):
+    """Flower `client_fn` for one origin cache."""
+    cache = str(cache)
+
+    def client_fn(context: Context):
+        partition = int(context.node_config["partition-id"])
+        client, settings, job = load_origin_cache(cache, partition)
+        node = {"context": context, "partition": partition}
+        return OriginClient(client, settings, job, node).to_client()
+
+    return client_fn
 
 
 def make_client_fn(cache, local_epochs=5, lr=0.01, eval_split="val", seed=0):

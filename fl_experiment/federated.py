@@ -128,26 +128,40 @@ def predict_crore(  # pylint: disable=too-many-arguments,too-many-positional-arg
     return np.expm1(normalized * y_std + y_mean)
 
 
-def _holdout_rmse(scored, clients, n_features, settings):  # pylint: disable=too-many-locals
+def client_holdout_rmse(parameters, client, n_features, settings):
+    """One state's holdout RMSE in INR crore."""
+    predicted = predict_crore(
+        parameters, client["early_stop"][0], client["y_mean"], client["y_std"],
+        n_features, settings,
+    )
+    actual = np.expm1(
+        client["early_stop"][1].reshape(-1) * client["y_std"] + client["y_mean"]
+    )
+    return regression_metrics(actual, predicted)["rmse"]
+
+
+def client_origin_prediction(parameters, client, n_features, settings):
+    """One state's forecast for its origin month, in INR crore."""
+    predicted = predict_crore(
+        parameters, client["origin"][0], client["y_mean"], client["y_std"],
+        n_features, settings,
+    )
+    return float(predicted[0])
+
+
+def _holdout_rmse(scored, clients, n_features, settings):
     """Mean of the per-state holdout RMSE, in INR crore."""
-    errors = []
-    for parameters, client in zip(scored, clients):
-        predicted = predict_crore(
-            parameters, client["early_stop"][0], client["y_mean"], client["y_std"],
-            n_features, settings,
-        )
-        actual = np.expm1(
-            client["early_stop"][1].reshape(-1) * client["y_std"] + client["y_mean"]
-        )
-        errors.append(regression_metrics(actual, predicted)["rmse"])
-    return float(np.mean(errors))
+    return float(np.mean([
+        client_holdout_rmse(parameters, client, n_features, settings)
+        for parameters, client in zip(scored, clients)
+    ]))
 
 
 def _copy_stack(parameters):
     return [layer.copy() for layer in parameters]
 
 
-def _client_step(  # pylint: disable=too-many-arguments,too-many-positional-arguments
+def client_step(  # pylint: disable=too-many-arguments,too-many-positional-arguments
         global_params, client, alpha, n_features, settings, job):
     """Fit one client and, for APFL, move alpha on the holdout."""
     local = local_update(global_params, client, n_features, settings, job["mu"])
@@ -165,7 +179,7 @@ def _round(  # pylint: disable=too-many-arguments,too-many-positional-arguments,
     """One communication round. Returns the new global model and scored copies."""
     updates, scored, next_alphas = [], [], []
     for client, alpha in zip(clients, alphas):
-        local, personal, alpha = _client_step(
+        local, personal, alpha = client_step(
             global_params, client, alpha, n_features, settings, job
         )
         updates.append((len(client["fit"][0]), local))
@@ -217,42 +231,48 @@ def run_origin(clients, settings, job):
     return rows, info
 
 
+def origin_row(client, predicted):
+    """Prediction row for one state's origin month."""
+    return {
+        "state_id": client["state_id"],
+        "target_month": client["target_month"],
+        "actual": float(client["actual"]),
+        "predicted": float(predicted),
+        "naive": client["naive"],
+        "fallback": "",
+    }
+
+
 def _score_origin(clients, scored, n_features, settings):
-    rows = []
-    for client, parameters in zip(clients, scored):
-        predicted = predict_crore(
-            parameters, client["origin"][0], client["y_mean"], client["y_std"],
-            n_features, settings,
-        )
-        rows.append({
-            "state_id": client["state_id"],
-            "target_month": client["target_month"],
-            "actual": float(client["actual"]),
-            "predicted": float(predicted[0]),
-            "naive": client["naive"],
-            "fallback": "",
-        })
-    return rows
+    return [
+        origin_row(client, client_origin_prediction(parameters, client, n_features, settings))
+        for client, parameters in zip(clients, scored)
+    ]
+
+
+def make_job(kind, value=0.0, alpha_init=ALPHA_INIT):
+    """Method settings shared by the in-process and Flower paths."""
+    if kind not in {"fedavg", "fedprox", "apfl"}:
+        raise ValueError("kind must be 'fedavg', 'fedprox' or 'apfl'")
+    return {
+        "kind": kind,
+        "mu": float(value) if kind == "fedprox" else 0.0,
+        "personalize": kind == "apfl",
+        "alpha_step": float(value) if kind == "apfl" else 0.0,
+        "alpha_init": float(alpha_init),
+    }
 
 
 def fedavg_origin(clients, settings):
     """FedAvg, which is FedProx with mu = 0 and no personalization."""
-    job = {"mu": 0.0, "personalize": False, "alpha_step": 0.0, "alpha_init": ALPHA_INIT}
-    return run_origin(clients, settings, job)
+    return run_origin(clients, settings, make_job("fedavg"))
 
 
 def fedprox_origin(clients, settings, mu):
     """FedProx. mu = 0 is required to match `fedavg_origin` on the same seed."""
-    job = {"mu": float(mu), "personalize": False, "alpha_step": 0.0, "alpha_init": ALPHA_INIT}
-    return run_origin(clients, settings, job)
+    return run_origin(clients, settings, make_job("fedprox", mu))
 
 
 def apfl_origin(clients, settings, alpha_step, alpha_init=ALPHA_INIT):
     """APFL. The scored parameters are the mixture, not the averaged local model."""
-    job = {
-        "mu": 0.0,
-        "personalize": True,
-        "alpha_step": float(alpha_step),
-        "alpha_init": float(alpha_init),
-    }
-    return run_origin(clients, settings, job)
+    return run_origin(clients, settings, make_job("apfl", alpha_step, alpha_init))

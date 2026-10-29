@@ -27,3 +27,5 @@ jobs:
         run: python -m fl_experiment.baselines --order-grid small --epochs 20 --patience 5 --gru-features all --output-dir /tmp/rolling-smoke
       - name: One-seed matched comparison on synthetic smoke data
         run: python -m fl_experiment.compare --skip-references --epochs 2 --patience 1 --seeds 0 --max-rounds 1 --round-patience 1 --local-epochs 1 --feature-sets gst_only --mu-grid 0.01 --alpha-steps 0.1 --output-dir /tmp/compare-smoke
+      - name: One Flower origin, two state clients, on synthetic smoke data
+        run: python -m fl_experiment.flower_rolling --selection /tmp/compare-smoke/selection.json --limit-origins 1 --limit-states 2 --output-dir /tmp/flower-smoke
