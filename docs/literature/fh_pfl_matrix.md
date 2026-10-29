@@ -55,6 +55,15 @@ Every part already exists in published work. The closest single method is FedAP.
 | Clustered DP load prediction with Louvain — Algorithms 2025 (doi:10.3390/a18010032) | Clients clustered by cosine similarity of updates; DP LSTM | Similarity-grouped federated forecasting | Abstract only |
 | Clustering versus personalization in residential load forecasting — Energy Reports 2026 (doi:10.1016/j.egyr.2026.109681) | After per-household fine-tuning, clustered methods land within 2% of the global model | A warning that grouping gains can vanish against a strong personalised baseline. Here those baselines are SARIMA and the local GRU | Abstract only |
 
+## Hierarchical coherence (prior work for FH-PFL v2)
+
+| Work | Setting | Relevance | Status |
+|---|---|---|---|
+| Tan et al., J. Shanghai Jiao Tong Univ. 55(12), 2021 (doi:10.16183/j.cnki.jsjtu.2021.296) | Private LSTM per bottom-level load region. Training is constrained so the outputs add up to the parent actuals, solved by ADMM over peer-to-peer FL that exchanges only outputs. Predictions are summed bottom-up | **Same mechanism as FH-PFL v2.** v2 is an application and extension of it, not a new algorithm | Full text read |
+| Bai and Pinson, Energies 2019 (doi:10.3390/en12061112) | Post-hoc reconciliation as an ADMM sharing problem; farms share only adjustments | The forecast-time ADMM step of v2 | Full text read |
+| CoRe — Cristian et al., 2025 (arXiv 2502.15983) | Centralized network with a final-layer coherence regularizer | A coherence penalty during training helps on small data; too much hurts | Full text read |
+| Rangapuram et al., ICML 2021 | Centralized DeepVAR with projection onto the coherent subspace inside training | End-to-end coherent training, not federated | Method checked |
+
 ## Revenue and economic forecasting
 
 | Work | Setting | Relevance | Status |

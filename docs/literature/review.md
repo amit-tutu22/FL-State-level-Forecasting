@@ -198,6 +198,69 @@
   - No seeds or spread are reported, the authors acknowledge the single-source simulation, and some references do not match their claimed content.
 - **For FH-PFL:** shows that a local/cluster blend with a per-client weight is being tried in forecasting. It is too weak to cite as evidence for anything; cite it only as an example of the idea, if at all.
 
+## Hierarchical coherence (novelty check for FH-PFL v2)
+
+Searched on 30 October 2026 for "federated forecast reconciliation", "federated hierarchical forecasting", "privacy-preserving reconciliation" and "ADMM sharing forecasting". The FH-PFL v2 idea has five parts:
+- private per-state models;
+- only forecasts are exchanged;
+- training is coupled by an aggregation constraint to a public total;
+- the coupling is solved by ADMM;
+- at the target month the forecasts are anchored to a forecast of the national total.
+
+### Tan, Li, Yang, Zhao and Ju, 2021 — the closest match
+
+*A Multi-Level Collaborative Load Forecasting Method for Distribution Networks Based on Distributed Optimization.* Journal of Shanghai Jiao Tong University 55(12), pp. 1544–1553 (doi:10.16183/j.cnki.jsjtu.2021.296). In Chinese with an English abstract. Read in full from the PDF page images.
+
+- **Method:**
+  - One LSTM per bottom-level region, with parameters θ_i.
+  - The objective is \(\min \sum_i \lVert f_i(\theta_i; x_i) - y_i\rVert^2\), subject to equality constraints: each parent's actual load equals the sum of its children's model outputs, at every level up to the top.
+  - The constraints enter an augmented Lagrangian with multipliers λ and penalty ρ. ADMM updates the models one after another, Gauss–Seidel style, then the multipliers.
+  - Training runs over a peer-to-peer federated architecture in which the models exchange only their outputs.
+  - Each LSTM is first pre-trained locally.
+  - Prediction is bottom-up: the bottom-level forecasts are summed.
+- **Evidence:**
+  - ISO New England hourly load, 2013–2016, in a three-level hierarchy of four bottom regions, split 80:20.
+  - LSTMs with 4 hidden layers of 100 units, 200 pre-training and 500 federated iterations, λ initialised at 0.1, ρ = 0.1.
+  - Average MAPE falls from 2.36% for independent forecasts and 2.75% for traditional bottom-up to 1.33%.
+  - One run, no seeds reported.
+- **For FH-PFL v2:** this is the same mechanism: private models, an aggregation equality constraint during training, ADMM, and only outputs exchanged.
+- **What v2 adds:**
+  - a server that holds the public total and sees only a secure sum, instead of peer-to-peer exchange;
+  - a Jacobi rather than Gauss–Seidel update;
+  - at the target month, the anchor is a forecast of the public national series, where Tan et al. use bottom-up aggregation.
+
+  These are variations, not a new method. v2 must be presented as an application and extension of Tan et al. (2021) to Indian state GST.
+
+### Bai and Pinson, Energies 2019
+
+*Distributed Reconciliation in Day-Ahead Wind Power Forecasting.* Energies 12(6):1112 (doi:10.3390/en12061112). Open access.
+
+- **Method:**
+  - Post-hoc reconciliation.
+  - Constrained game-theoretic optimal projection (GTOP), written as an ADMM "sharing" problem: each wind farm adjusts its base forecast and shares only the adjustment Δy_k.
+  - An aggregator enforces Σ ỹ_k = ỹ_AGG.
+- **Evidence:** simulated, NREL and Sardinia wind data. Centralized MinT is best; the distributed ADMM version is close to its centralized counterpart.
+- **For FH-PFL v2:** the ADMM sharing step at forecast time is this method. v2 differs only by also coupling during training.
+
+### CoRe — Cristian, Harsha, Perakis and Quanz, 2025
+
+*CoRe: Coherency Regularization for Hierarchical Time Series.* arXiv:2502.15983, a manuscript under submission.
+
+- **Method:** one centralized network over all series, with a penalty \(\lVert W_L - AW_L\rVert + \lVert b_L - Ab_L\rVert\) on its final layer that bounds incoherence for any input.
+- **Evidence:**
+  - Labour, Traffic and Tourism data, 10 runs.
+  - Coherence regularization improves out-of-sample error over an unregularized base model, most on the smaller datasets.
+  - Too much weight on coherence hurts, with a best weight of 0.04 on Labour.
+- **For FH-PFL v2:** independent evidence that a coherence penalty during training can help generalization on small data. Its tuning result supports choosing ρ on validation.
+
+### Rangapuram, Werner, Benidis, Mercado, Gasthaus and Januschowski, ICML 2021
+
+*End-to-End Learning of Coherent Probabilistic Forecasts for Hierarchical Time Series.* PMLR 139.
+
+- **Method:** a centralized DeepVAR. Its samples are projected onto the coherent subspace with \(M = I - A^\top(AA^\top)^{-1}A\), and the loss is computed on the projected samples.
+- **Evidence:** Labour, Traffic, Tourism, Tourism-L and Wiki, 5 runs. It has the best CRPS on most datasets against MinT, ERM and PERMBU-MinT.
+- **For FH-PFL v2:** the centralized end-to-end counterpart. It needs all series in one model, so it is not federated.
+
 ## Entries read earlier
 
 FedAvg, FedProx, APFL and FedRep, together with FedAMP, FedFomo, pFedGraph and SFL, are summarised in the matrix. Their update rules were checked against the papers' equations or method sections on 29 October 2026.
