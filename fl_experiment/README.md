@@ -5,7 +5,7 @@ A compact GRU forecaster trained two ways on identical states, windows and cutof
 - locally, as one model per state ([#17](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/17), `local_gru`);
 - with Flower FedAvg, using one disjoint client per state ([#18](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/18), `run_fl_simulation`).
 
-No result here is thesis evidence yet. The first real-data run is recorded in [docs/experiments/2026-10-29-real-data-smoke.md](../docs/experiments/2026-10-29-real-data-smoke.md).
+No result here is thesis evidence yet. Real-panel records: the [fixed-split smoke](../docs/experiments/2026-10-29-real-data-smoke.md) and the [rolling-origin comparison](../docs/experiments/2026-10-29-rolling-origin.md).
 
 The GRU (`model.py`) has hidden size 16 and dropout 0.1. It reads a `(window, features)` sequence and predicts from its final hidden state.
 
@@ -17,7 +17,7 @@ scripts/setup_venv.sh --fl
 python -m unittest discover -s fl_experiment/tests -t . -v
 ```
 
-Run every command from the repository root. Pinned versions are in `requirements-fl.txt` (Flower 1.11.1, PyTorch 2.15.0, Python 3.11).
+Run every command from the repository root. Pinned versions are in `requirements-fl.txt` (Flower 1.11.1, PyTorch 2.15.0, statsmodels 0.14.6, Python 3.11).
 
 ## Clients and splits
 
@@ -49,6 +49,18 @@ Each state trains on its own windows with full-batch Adam, early stopping on val
 
 - `predictions.csv`: train and validation predictions in INR crore;
 - `metrics.json`: settings, seeds, best and run epochs, per-state and aggregate validation metrics, window counts and compute details.
+
+## Rolling-origin baselines
+
+```sh
+python -m fl_experiment.baselines --order-grid small --epochs 20
+python -m fl_experiment.baselines --source panel --allow-assumed-vintages \
+    --panel data/reports/lagged45-2012/panel.csv
+```
+
+For each target month in the validation year, every model is refit using only earlier months. The test months are written into `folds.json` and not scored. SARIMA picks one order per state by AIC before the validation year (`--order-grid full` is 12 candidates; `small` is the fast check) and falls back to the seasonal naive if a fit fails. The local GRU early-stops on the six months before the origin. `--gru-features` defaults to both `all` and `gst_only`.
+
+The output directory contains `folds.json`, `predictions.csv` (one row per model and origin) and `metrics.json` (RMSE, MAE, MAPE and MASE, per state and pooled). The first real-panel table is [the rolling-origin record](../docs/experiments/2026-10-29-rolling-origin.md).
 
 ## Simulation (single machine)
 

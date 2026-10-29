@@ -26,22 +26,21 @@ from fl_experiment.state_data import add_data_arguments, clients_from_arguments
 RESULTS = Path(__file__).resolve().parent / "results"
 
 
-def train_state(data, settings):
-    """Train with validation early stopping and restore the best weights."""
+# pylint: disable-next=too-many-arguments,too-many-positional-arguments
+def train_arrays(x_train, y_train, x_val, y_val, n_features, settings):
+    """Train with early stopping on `x_val` and restore the best weights."""
     torch.manual_seed(settings["seed"])
-    model = RevenueModel(data.n_features, settings["hidden"], settings["dropout"])
+    model = RevenueModel(n_features, settings["hidden"], settings["dropout"])
     optimizer = torch.optim.Adam(
         model.parameters(), lr=settings["lr"], weight_decay=settings["weight_decay"]
     )
     loss_fn = torch.nn.MSELoss()
-    x, y = torch.from_numpy(data.x["train"]), torch.from_numpy(data.y["train"])
-    x_val, y_val = torch.from_numpy(data.x["val"]), torch.from_numpy(data.y["val"])
     best = {"loss": float("inf"), "epoch": 0, "state": copy.deepcopy(model.state_dict())}
     stale, epoch = 0, 0
     for epoch in range(1, settings["epochs"] + 1):
         model.train()
         optimizer.zero_grad()
-        loss_fn(model(x), y).backward()
+        loss_fn(model(x_train), y_train).backward()
         optimizer.step()
         model.eval()
         with torch.no_grad():
@@ -56,6 +55,18 @@ def train_state(data, settings):
     model.load_state_dict(best["state"])
     model.eval()
     return model, {"best_epoch": best["epoch"], "epochs_run": epoch, "best_val_loss": best["loss"]}
+
+
+def train_state(data, settings):
+    """Train on the fixed training split, early-stopping on the fixed validation split."""
+    return train_arrays(
+        torch.from_numpy(data.x["train"]),
+        torch.from_numpy(data.y["train"]),
+        torch.from_numpy(data.x["val"]),
+        torch.from_numpy(data.y["val"]),
+        data.n_features,
+        settings,
+    )
 
 
 def predict(model, data, split):
@@ -82,10 +93,8 @@ def train_all(clients, settings):
     return rows, results, per_state
 
 
-def parse_args():
-    """Parse command-line options."""
-    parser = argparse.ArgumentParser(description=__doc__)
-    add_data_arguments(parser)
+def add_training_arguments(parser):
+    """Register the shared GRU training options."""
     parser.add_argument("--epochs", type=int, default=500, help="maximum epochs")
     parser.add_argument("--patience", type=int, default=30)
     parser.add_argument("--lr", type=float, default=0.01)
@@ -93,6 +102,33 @@ def parse_args():
     parser.add_argument("--hidden", type=int, default=16)
     parser.add_argument("--dropout", type=float, default=0.1)
     parser.add_argument("--seed", type=int, default=0)
+    return parser
+
+
+def training_settings(args):
+    """Return the training options as a dictionary."""
+    return {
+        key: getattr(args, key)
+        for key in ["epochs", "patience", "lr", "weight_decay", "hidden", "dropout", "seed"]
+    }
+
+
+def compute_info(started):
+    """Wall time and the compute environment for a run record."""
+    return {
+        "wall_seconds": round(time.perf_counter() - started, 2),
+        "torch": torch.__version__,
+        "python": platform.python_version(),
+        "platform": platform.platform(),
+        "threads": 1,
+    }
+
+
+def parse_args():
+    """Parse command-line options."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    add_data_arguments(parser)
+    add_training_arguments(parser)
     parser.add_argument("--output-dir", type=Path)
     return parser.parse_args()
 
@@ -105,10 +141,7 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     output = args.output_dir or RESULTS / f"local-gru-{args.source}-{args.features}-{stamp}"
     output.mkdir(parents=True, exist_ok=True)
-    settings = {
-        key: getattr(args, key)
-        for key in ["epochs", "patience", "lr", "weight_decay", "hidden", "dropout", "seed"]
-    }
+    settings = training_settings(args)
 
     started = time.perf_counter()
     rows, results, per_state = train_all(clients, settings)
@@ -125,13 +158,7 @@ def main():
         "data": manifest,
         "validation_aggregate": MetricsRecorder()(results),
         "validation_by_state": per_state,
-        "compute": {
-            "wall_seconds": round(time.perf_counter() - started, 2),
-            "torch": torch.__version__,
-            "python": platform.python_version(),
-            "platform": platform.platform(),
-            "threads": 1,
-        },
+        "compute": compute_info(started),
     }
     (output / "metrics.json").write_text(json.dumps(record, indent=2), encoding="utf-8")
     print(f"{len(clients)} states; excluded: {manifest['excluded_states'] or 'none'}")

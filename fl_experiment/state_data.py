@@ -302,8 +302,8 @@ def add_data_arguments(parser):
     )
 
 
-def clients_from_arguments(args):
-    """Return (clients, excluded, manifest) for parsed `add_data_arguments` options."""
+def records_from_arguments(args):
+    """Return (records, feature names, validation start, test start)."""
     if args.source == "panel":
         if not args.panel:
             raise SystemExit("--panel is required with --source panel")
@@ -314,6 +314,12 @@ def clients_from_arguments(args):
     default_val, default_test = DEFAULT_CUTOFFS[args.source]
     val_start = args.val_start or default_val
     test_start = args.test_start or default_test
+    return records, features, val_start, test_start
+
+
+def clients_from_arguments(args):
+    """Return (clients, excluded, manifest) for parsed `add_data_arguments` options."""
+    records, features, val_start, test_start = records_from_arguments(args)
     clients, excluded = build_state_clients(
         records, val_start, test_start, args.min_train, args.window
     )

@@ -9,11 +9,11 @@ The work follows the 8-month roadmap in [#30](https://github.com/amit-tutu22/FL-
 | Milestone | State |
 |---|---|
 | M1 — Dataset feasibility | Official GST, E-Way Bill and CPI pipeline acquired, audited and tested ([#13](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/13) closed; [#14](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/14) remaining items open) |
-| M2 — Forecasting baselines | Local per-state GRU implemented on fixed cutoffs ([#17](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/17)); rolling-origin protocol ([#15](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/15)) and seasonal naive/SARIMA ([#16](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/16)) not started |
+| M2 — Forecasting baselines | Rolling-origin folds, seasonal naive and SARIMA are in place ([#15](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/15), [#16](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/16)); the local GRU ([#17](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/17)) is scored on the same folds |
 | M3 — Flower federated baselines | One disjoint client per state with the same GRU ([#18](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/18)); FedAvg/FedProx benchmarks not started |
 | M4 onwards — review, personalization, evaluation | Not started |
 
-`fl_experiment/` trains a compact GRU locally per state and with Flower FedAvg (see [fl_experiment/README.md](fl_experiment/README.md)). The first real-panel run is recorded in [docs/experiments/2026-10-29-real-data-smoke.md](docs/experiments/2026-10-29-real-data-smoke.md). It covers 32 eligible states and validation only, using assumed-lag sensitivity inputs. The legacy synthetic data from `data-generator/` is for software smoke tests only.
+`fl_experiment/` trains a compact GRU locally per state and with Flower FedAvg, and scores seasonal naive, SARIMA and the local GRU on shared rolling-origin folds (see [fl_experiment/README.md](fl_experiment/README.md)). The real-panel runs are in [docs/experiments/](docs/experiments/): a fixed-split smoke and the [rolling-origin comparison](docs/experiments/2026-10-29-rolling-origin.md). Both use assumed-lag sensitivity inputs and the validation period only. The legacy synthetic data from `data-generator/` is for software smoke tests only.
 
 No forecasting results or privacy guarantees are claimed yet. Federation over public data is a simulation, not a deployed privacy mechanism.
 

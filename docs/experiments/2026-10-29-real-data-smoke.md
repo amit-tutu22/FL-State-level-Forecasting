@@ -2,7 +2,7 @@
 
 First end-to-end run of the GRU models on the official panel. It shows that the pipeline, the per-state windows, the local GRU (#17) and the Flower FedAvg GRU work on real data.
 
-**These are assumed-lag sensitivity results on the validation period.** They are not real-time backtests, nothing has been tuned, and no number here is a thesis claim. The test period (target months from 2025-04) was not evaluated.
+**These are assumed-lag sensitivity results on the validation period.** They are not real-time backtests, nothing has been tuned, and no number here is a thesis claim. The test period (target months from 2025-04) was not evaluated. The comparable reference is the rolling-origin table in [2026-10-29-rolling-origin.md](2026-10-29-rolling-origin.md). The fixed training cutoff used below is a different protocol and is not in that table.
 
 ## Data
 

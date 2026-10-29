@@ -23,3 +23,5 @@ jobs:
         run: python -m fl_experiment.run_fl_simulation --rounds 2 --output-dir /tmp/fl-smoke
       - name: Local per-state GRU on synthetic smoke data
         run: python -m fl_experiment.local_gru --epochs 50 --output-dir /tmp/local-gru-smoke
+      - name: Rolling-origin naive, SARIMA and GRU on synthetic smoke data
+        run: python -m fl_experiment.baselines --order-grid small --epochs 20 --patience 5 --gru-features all --output-dir /tmp/rolling-smoke
