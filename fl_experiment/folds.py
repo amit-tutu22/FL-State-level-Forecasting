@@ -7,6 +7,7 @@ exists, history is long enough, and the GRU can form its training windows,
 early-stopping holdout and origin window without crossing a gap.
 """
 
+import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -195,7 +196,55 @@ def _window_block(inputs, log_targets, target_months, window, scales):
     )
 
 
-def origin_arrays(state, origin, window, holdout, columns):
+def pooled_scales(states, fit_end, columns):
+    """Mean and standard deviation of every state's rows strictly before `fit_end`."""
+    rows, logs = [], []
+    for state in states:
+        inputs = _sliced_inputs(state, columns)
+        log_targets = {
+            month: float(np.log1p(value))
+            for month, value in zip(state["months"], state["targets"])
+        }
+        for month, row in inputs.items():
+            if month < fit_end:
+                rows.append(row)
+                logs.append(log_targets[month])
+    values = np.asarray(rows, dtype=float)
+    target = np.asarray(logs, dtype=float).reshape(-1, 1)
+    spread = values.std(axis=0)
+    target_spread = target.std(axis=0)
+    return (
+        values.mean(axis=0),
+        np.where(spread < 1e-8, 1.0, spread),
+        float(target.mean()),
+        float(np.where(target_spread < 1e-8, 1.0, target_spread)[0]),
+    )
+
+
+def protocol_hash(folds):
+    """Fingerprint of the folds. The test command refuses a different fingerprint."""
+    origins = []
+    for state_id, state in sorted(folds["states"].items()):
+        for origin in state["origins"]:
+            origins.append({
+                "state_id": state_id,
+                "target_month": origin["target_month"],
+                "split": origin["split"],
+                "actual": round(float(origin["actual"]), 6),
+                "scored": bool(origin["scored"]),
+                "skip_reason": origin["skip_reason"],
+            })
+    payload = {
+        "protocol": folds["protocol"],
+        "feature_names": folds["feature_names"],
+        "origins": origins,
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def origin_arrays(  # pylint: disable=too-many-arguments,too-many-positional-arguments
+        state, origin, window, holdout, columns, scales=None):
     """Scaled fit, early-stopping and origin arrays. Nothing uses the origin month."""
     month = origin["target_month"]
     inputs = _sliced_inputs(state, columns)
@@ -209,7 +258,8 @@ def origin_arrays(state, origin, window, holdout, columns):
     early_months = [target for target in usable if fit_end <= target < month]
     if month in fit_months or month in early_months:
         raise ValueError("Origin month leaked into training or early stopping")
-    scales = _training_scales(inputs, log_targets, fit_end)
+    if scales is None:
+        scales = _training_scales(inputs, log_targets, fit_end)
     return {
         "fit": _window_block(inputs, log_targets, fit_months, window, scales),
         "early_stop": _window_block(inputs, log_targets, early_months, window, scales),

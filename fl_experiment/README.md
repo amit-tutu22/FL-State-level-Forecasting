@@ -26,7 +26,7 @@ Run every command from the repository root. Pinned versions are in `requirements
 - **Windows:** the window for target month m stacks the input rows of the `--window` (default 6) target months ending at m. Each row only uses information available at its own forecast origin. A window must have every month present, so it never crosses a gap. Splits are assigned by the window's target month.
 - **Preprocessing:** inputs and target are log-scaled, then standardized with the state's own training-period mean and standard deviation. Metrics are reported in INR crore after inverting this.
 - **Inputs:** `--features all` (default) or `--features gst_only`, which keeps the lagged GST inputs plus the month encoding. This supports the GST-only versus multivariate comparison in #17.
-- **Evaluation:** local early stopping and federated rounds both use validation. The test period is used only with `--final-test` in the simulation, which should wait until configurations are frozen (#25).
+- **Evaluation:** scored comparisons use the rolling-origin protocol in [docs/PROTOCOL.md](../docs/PROTOCOL.md). The fixed-split commands are smoke tests. `run_fl_simulation --final-test` is refused. The test year is scored only by `evaluate_test` after `selection.json` is frozen.
 - **Exclusions:** states with fewer than `--min-train` (default 24) training windows, or no validation or test windows, are excluded and listed with a reason.
 - **Aggregation:** the run record contains sample-weighted and equal-state means plus per-state metrics for every round.
 
@@ -37,7 +37,7 @@ Run every command from the repository root. Pinned versions are in `requirements
 
 The earlier IID, label-skew, feature-skew and overlapping quantity-skew splits were removed. The primary experiment uses natural state ownership. Any synthetic stress test added later must be a separately documented experiment.
 
-## Local GRU per state
+## Local GRU per state (smoke only)
 
 ```sh
 python -m fl_experiment.local_gru
@@ -45,7 +45,7 @@ python -m fl_experiment.local_gru --source panel \
     --panel data/reports/lagged45-2012/panel.csv --allow-assumed-vintages --features gst_only
 ```
 
-Each state trains on its own windows with full-batch Adam, early stopping on validation loss (`--patience`, up to `--epochs`) and the best weights restored. The output directory contains:
+This fixed split early-stops on the whole validation year, so it is not a comparison result. Each state trains on its own windows with full-batch Adam, early stopping on validation loss (`--patience`, up to `--epochs`) and the best weights restored. The output directory contains:
 
 - `predictions.csv`: train and validation predictions in INR crore;
 - `metrics.json`: settings, seeds, best and run epochs, per-state and aggregate validation metrics, window counts and compute details.
@@ -62,7 +62,26 @@ For each target month in the validation year, every model is refit using only ea
 
 The output directory contains `folds.json`, `predictions.csv` (one row per model and origin) and `metrics.json` (RMSE, MAE, MAPE and MASE, per state and pooled). The first real-panel table is [the rolling-origin record](../docs/experiments/2026-10-29-rolling-origin.md).
 
-## Simulation (single machine)
+## Matched rolling-origin comparison
+
+```sh
+python -m fl_experiment.compare --source panel --allow-assumed-vintages \
+    --panel data/reports/lagged45-2012/panel.csv \
+    --output-dir fl_experiment/results/real-2026-10-29/protocol
+```
+
+This is the scored validation run. It chooses the feature set from the local GRU, then fits pooled GRU, FedAvg, FedProx (`mu` in 0.01, 0.1, 1) and APFL (step size 0.1 or 1) on that set, for seeds 0, 1 and 2. The selection score is mean equal-state RMSE. It writes `selection.json` and does not read the test year.
+
+```sh
+python -m fl_experiment.evaluate_test --confirm-frozen \
+    --selection docs/experiments/2026-10-29-selection.json \
+    --source panel --allow-assumed-vintages \
+    --panel data/reports/lagged45-2012/panel.csv
+```
+
+The test command refuses to start if the selection file is missing or the fold hash differs. It does not search settings again. The rules are in [docs/PROTOCOL.md](../docs/PROTOCOL.md). APFL's mixing step is described in [docs/methods/apfl.md](../docs/methods/apfl.md).
+
+## Simulation (single machine, smoke only)
 
 ```sh
 python -m fl_experiment.run_fl_simulation --rounds 5
@@ -85,6 +104,6 @@ The server waits until `--min-clients` clients connect, and every round uses all
 
 ## Reference
 
-`python -m fl_experiment.centralized_baseline` trains the same model on all states' pooled training rows and reports per-state validation error. Pooling raw rows is exactly what federation avoids, so this is a reference point only.
+`python -m fl_experiment.centralized_baseline` is a fixed-split smoke test. The scored pooled GRU is the rolling-origin model inside `compare`. Pooling raw rows is exactly what federation avoids, so the pooled model is a reference point only.
 
 Federating public data is a simulation. It provides no formal privacy guarantee.

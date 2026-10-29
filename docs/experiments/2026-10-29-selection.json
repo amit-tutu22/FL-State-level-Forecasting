@@ -1,0 +1,90 @@
+{
+  "frozen": true,
+  "created_utc": "2026-10-29T14:46:04Z",
+  "protocol_hash": "47573acc0b043ecaa59dfcb8c59bca65915fbc12da63755f4bc64513ddc7ae18",
+  "protocol": {
+    "horizon_months": 1,
+    "seasonal_period": 12,
+    "val_start": "2024-04",
+    "test_start": "2025-04",
+    "min_train": 24,
+    "window": 6,
+    "holdout_months": 6,
+    "expanding_window": true,
+    "test_scored": false
+  },
+  "selection_metric": "rmse_equal_state",
+  "feature_set": "gst_only",
+  "fedprox_mu": 0.01,
+  "apfl_alpha_step": 1.0,
+  "apfl_alpha_init": 0.5,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "local_epochs": 5,
+  "max_rounds": 20,
+  "round_patience": 5,
+  "architecture": {
+    "epochs": 500,
+    "patience": 30,
+    "lr": 0.01,
+    "weight_decay": 0.0001,
+    "hidden": 16,
+    "dropout": 0.1
+  },
+  "validation_rmse_equal_state": {
+    "local_gru_gst_only": {
+      "mean": 446.9192180198716,
+      "std": 7.606857244241611
+    },
+    "local_gru_all": {
+      "mean": 470.44614894885495,
+      "std": 8.011613651722694
+    },
+    "pooled_gru": {
+      "mean": 585.3032921520094,
+      "std": 19.686659525016545
+    },
+    "fedavg": {
+      "mean": 469.8506763587381,
+      "std": 7.707043066441613
+    },
+    "fedprox_mu_0.01": {
+      "mean": 474.6183439405733,
+      "std": 13.687510485208188
+    },
+    "fedprox_mu_0.1": {
+      "mean": 503.6405025204444,
+      "std": 7.2025000923625955
+    },
+    "fedprox_mu_1": {
+      "mean": 520.9711055614744,
+      "std": 8.782375072230227
+    },
+    "apfl_step_0.1": {
+      "mean": 428.7354776158448,
+      "std": 14.74345576952227
+    },
+    "apfl_step_1": {
+      "mean": 416.25412647898855,
+      "std": 13.135446134170206
+    },
+    "sarima": {
+      "mean": 228.0816421960268,
+      "std": 0.0
+    },
+    "seasonal_naive": {
+      "mean": 427.17805027250745,
+      "std": 0.0
+    }
+  },
+  "compute": {
+    "wall_seconds": 320.92,
+    "torch": "2.15.0",
+    "python": "3.11.15",
+    "platform": "macOS-26.2-arm64-arm-64bit",
+    "threads": 1
+  }
+}

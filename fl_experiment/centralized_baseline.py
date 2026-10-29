@@ -1,6 +1,8 @@
-"""Pooled (non-federated) reference on the same state clients and splits.
+"""Smoke-only pooled GRU on one fixed train/validation cut.
 
     python -m fl_experiment.centralized_baseline --epochs 200
+
+The scored pooled GRU is retrained at each rolling origin. See docs/PROTOCOL.md.
 """
 
 import argparse

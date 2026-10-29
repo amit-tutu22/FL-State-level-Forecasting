@@ -1,10 +1,11 @@
-"""Flower FedAvg simulation with one disjoint client per state.
+"""Smoke-only Flower FedAvg on one fixed train/validation cut.
 
-Smoke test on the legacy synthetic CSV:
     python -m fl_experiment.run_fl_simulation --rounds 3
-Real panel (assumed-lag sensitivity mode requires explicit opt-in):
-    python -m fl_experiment.run_fl_simulation --source panel \
-        --panel data/reports/lagged-2012/panel.csv --allow-assumed-vintages
+
+Each round can see the whole validation year when it chooses what to keep, so
+this module cannot write a comparison result. Scored FedAvg and FedProx use
+the rolling-origin protocol in docs/PROTOCOL.md. The reserved test period is
+not evaluated here.
 """
 
 import argparse
@@ -37,7 +38,7 @@ def parse_args():
     parser.add_argument(
         "--final-test",
         action="store_true",
-        help="evaluate on the reserved test period (only after configurations are frozen)",
+        help="refused: the test year is scored only by fl_experiment.evaluate_test",
     )
     parser.add_argument(
         "--prepare-only",
@@ -50,6 +51,11 @@ def parse_args():
 def main():
     """Prepare state clients, run the simulation and save the run record."""
     args = parse_args()
+    if args.final_test:
+        raise SystemExit(
+            "The fixed-split simulation cannot score the test period. "
+            "Use python -m fl_experiment.evaluate_test after selection.json is frozen."
+        )
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)

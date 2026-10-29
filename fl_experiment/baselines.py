@@ -40,7 +40,7 @@ from fl_experiment.local_gru import (
     train_arrays,
     training_settings,
 )
-from fl_experiment.metrics import mase, regression_metrics
+from fl_experiment.metrics import mase, prediction_row, regression_metrics
 from fl_experiment.server import MetricsRecorder
 from fl_experiment.state_data import add_data_arguments, records_from_arguments, shift_month
 
@@ -118,15 +118,7 @@ def forecast_sarima(state, month, chosen, min_train, maxiter):
 
 
 def _prediction(model, state_id, origin, predicted, fallback=""):
-    return {
-        "model": model,
-        "state_id": state_id,
-        "target_month": origin["target_month"],
-        "actual": origin["actual"],
-        "predicted": predicted,
-        "naive": origin["seasonal_naive"],
-        "fallback": fallback,
-    }
+    return prediction_row(model, state_id, origin, predicted, fallback)
 
 
 def naive_rows(folds):

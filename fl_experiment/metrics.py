@@ -3,6 +3,19 @@
 import numpy as np
 
 
+def prediction_row(model, state_id, origin, predicted, fallback=""):
+    """One origin's actual, prediction and seasonal naive, in INR crore."""
+    return {
+        "model": model,
+        "state_id": state_id,
+        "target_month": origin["target_month"],
+        "actual": origin["actual"],
+        "predicted": predicted,
+        "naive": origin["seasonal_naive"],
+        "fallback": fallback,
+    }
+
+
 def _columns(y_true, y_pred):
     actual = np.asarray(y_true, dtype=float).reshape(-1)
     predicted = np.asarray(y_pred, dtype=float).reshape(-1)

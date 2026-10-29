@@ -1,10 +1,12 @@
-"""Local baseline: one GRU per state, trained only on that state's windows (#17).
+"""Smoke-only local GRU on one fixed train/validation cut.
 
     python -m fl_experiment.local_gru
     python -m fl_experiment.local_gru --source panel --allow-assumed-vintages \
         --panel data/reports/lagged45-2012/panel.csv --features gst_only
 
-Early stopping uses the state's validation windows; the test period is never read.
+Early stopping sees the whole validation year, so this module cannot write a
+comparison result. Scored runs use the rolling-origin protocol in docs/PROTOCOL.md.
+The test period is never read.
 """
 
 import argparse
