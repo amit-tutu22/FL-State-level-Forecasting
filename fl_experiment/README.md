@@ -5,7 +5,7 @@ A compact GRU forecaster trained two ways on identical states, windows and cutof
 - locally, as one model per state ([#17](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/17), `local_gru`);
 - with Flower FedAvg, using one disjoint client per state ([#18](https://github.com/amit-tutu22/FL-State-level-Forecasting/issues/18), `run_fl_simulation`).
 
-No result here is thesis evidence yet. Real-panel records: the [fixed-split smoke](../docs/experiments/2026-10-29-real-data-smoke.md) and the [rolling-origin comparison](../docs/experiments/2026-10-29-rolling-origin.md).
+Real-panel records: the [fixed-split smoke](../docs/experiments/2026-10-29-real-data-smoke.md), the [first rolling-origin comparison](../docs/experiments/2026-10-29-rolling-origin.md), the [matched validation comparison](../docs/experiments/2026-10-29-protocol-validation.md) and the [test evaluation](../docs/experiments/2026-10-29-protocol-test.md).
 
 The GRU (`model.py`) has hidden size 16 and dropout 0.1. It reads a `(window, features)` sequence and predicts from its final hidden state.
 

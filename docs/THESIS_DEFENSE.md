@@ -4,11 +4,11 @@ Chronological record of what the project has established, in the order the evide
 
 The defendable empirical comparison is the matched validation table in [experiments/2026-10-29-protocol-validation.md](experiments/2026-10-29-protocol-validation.md). The earlier rolling-origin table remains the record of how the seasonal naive, SARIMA and the first local GRU were scored. Everything before those tables is data definition, protocol, or an exploratory run. The original proposal in [PROPOSAL.md](PROPOSAL.md) is the starting question, not a result. Work on `fl_initial_experiment` (synthetic panels, welfare-leakage models, approximate differential privacy) is not on this branch and is not evidence for this thesis.
 
-The test period, target months from April 2025, has been stored and has not been scored. The neural numbers below are means across seeds 0, 1 and 2 on the validation year only.
+The test period, April 2025 through March 2026, was scored once after the validation choices were frozen. It was not used to pick a feature set, a FedProx strength, or an APFL step. Neural numbers are means across seeds 0, 1 and 2.
 
 ## What can be said in one minute
 
-Monthly state GST can be studied as a forecasting problem on official data, with one client per state and a locked future period. On a retrospective sensitivity panel, a per-state SARIMA is the accuracy reference: it cuts the seasonal-naive RMSE from 427 to 228 crore on 384 validation origins. Under the same origins, three seeds, and a shared GST-only feature set, FedAvg does not beat a local GRU, FedProx gets worse as its penalty grows, and APFL is the best neural method at about 416 crore equal-state RMSE. That is close to the seasonal naive and far from SARIMA. No privacy guarantee has been tested, and the test year has not been opened.
+Monthly state GST can be studied as a forecasting problem on official data, with one client per state and a locked evaluation. On a retrospective sensitivity panel, a per-state SARIMA is the accuracy reference on both the validation year (RMSE 228 against a seasonal-naive 427) and the test year (288 against 392). FedAvg does not beat a local GRU. APFL was the best neural method on validation, close to the seasonal naive, and on the test year it falls behind that naive forecast (509 against 392). No privacy guarantee has been tested.
 
 ## 1. The question was narrowed before any model was trained
 
@@ -127,23 +127,39 @@ The matched scientific comparison is in section 9. FedAvg, FedProx and APFL now 
 
 GST history alone beat GST plus E-Way Bills plus CPI (446.9 against 470.4). FedProx was best at `mu = 0.01` and still worse than FedAvg (474.6 against 469.9); `mu = 1` was worse again (521.0). APFL with step size 1.0 was the best neural setting, at 416.3 ± 13.1 crore. The pooled GRU was the worst, at 585.3.
 
-**Defend:** under this protocol, sharing one model across states does not help, a stronger FedProx penalty does not help, and the personalized mixture is the neural method that comes closest to the seasonal naive. **State alongside it:** SARIMA's RMSE is 228. APFL beats SARIMA in only five small states. Maharashtra still dominates the crore error (APFL about 3,071, SARIMA about 1,085). Lakshadweep still dominates MAPE. The test year has not been scored, so this is the validation conclusion.
+**Defend:** under this protocol, sharing one model across states does not help, a stronger FedProx penalty does not help, and the personalized mixture is the neural method that comes closest to the seasonal naive on the validation year. **State alongside it:** SARIMA's validation RMSE is 228. APFL beats SARIMA there in only five small states. Maharashtra still dominates the crore error. The test year, scored afterwards, is in section 10.
+
+## 10. The test year does not confirm the neural methods
+
+[experiments/2026-10-29-protocol-test.md](experiments/2026-10-29-protocol-test.md). The command refused to start unless the frozen selection file matched the fold hash. Settings were not searched again. Origins run from April 2025 through March 2026.
+
+| Method | Test RMSE |
+|---|---:|
+| Seasonal naive | 392.0 |
+| SARIMA | 287.6 |
+| APFL, step 1 | 509.1 ± 29.7 |
+| FedAvg | 536.5 ± 15.3 |
+| Local GRU, GST only | 539.8 ± 5.4 |
+| FedProx, μ = 0.01 | 540.3 ± 20.1 |
+| Pooled GRU | 615.9 ± 30.7 |
+
+**Defend:** the held-out year still ranks SARIMA first, and it still ranks a single pooled GRU last. **State alongside it:** APFL's validation advantage over the seasonal naive disappears. Its test RMSE is 509 against 392, and its equal-state MASE is 1.21. It beats SARIMA in one state, Lakshadweep, where both errors are about 2 crore. The local GRU has the lowest MAPE (13.97%) and a worse RMSE than the seasonal naive. Maharashtra still decides the crore error.
 
 ## Claims that are not available for the defense
 
 | Claim | Status |
 |---|---|
-| The GRU, FedAvg, or APFL forecasts GST better than SARIMA | SARIMA's validation RMSE is 228. The best neural method, APFL, is about 416. |
+| The GRU, FedAvg, or APFL forecasts GST better than SARIMA | SARIMA leads on validation (228) and on the test year (288). The best neural test RMSE is APFL at about 509. |
+| A neural method beats the seasonal naive | APFL was close on validation and behind on the test year (509 against 392). |
 | E-Way Bills or CPI improve the forecast | The local GRU is worse when those series are added. The other methods then used GST history only. |
-| FedAvg or FedProx beats a local GRU | On the matched validation run, both are worse than the GST-only local GRU. APFL's mean RMSE is lower than that local GRU; the seed spread is about 13 crore. |
+| FedAvg or FedProx beats a local GRU | On validation both are worse. On the test year FedAvg is within a seed's spread of the local GRU and still far from SARIMA. |
 | The system is privacy-preserving, encrypted, or differentially private | No such mechanism is on this branch. |
 | Welfare leakage can be detected | Out of scope for this roadmap. |
 | Results from the synthetic `fl_initial_experiment` branch | Different data, different model, not merged here. |
-| Performance on the test year, or in real time | Test origins are locked. Strict real-time history has zero complete rows. |
+| A real-time backtest | The test year was scored, but on the assumed 45-day lag. Strict real-time history has zero complete rows. |
 
 ## What is still open, in the order the roadmap asks for it
 
-1. Score the locked test year once, with the settings in `2026-10-29-selection.json`, and do not search those settings again (#25).
-2. The literature matrix and a definition of FH-PFL that can be falsified (#21), then the semester review (#22). FH-PFL is not implemented.
-3. Ablations of personalization, lag length and the extra series (#26).
-4. Original-release vintages, if a real-time claim is going to be made. Until then the 45-day assumption stays in every table.
+1. The literature matrix and a definition of FH-PFL that can be falsified (#21), then the semester review (#22). FH-PFL is not implemented.
+2. Ablations of personalization, lag length and the extra series (#26). Another pass over the test year is not one of those ablations.
+3. Original-release vintages, if a real-time claim is going to be made. Until then the 45-day assumption stays in every table.
