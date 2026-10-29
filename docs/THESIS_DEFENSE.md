@@ -177,6 +177,10 @@ GST history alone beat GST plus E-Way Bills plus CPI (446.9 against 470.4). FedP
 
 ## What is still open, in the order the roadmap asks for it
 
-1. FH-PFL (#21) has a [draft definition](methods/fh_pfl.md) with a pre-stated decision rule, a [literature matrix](literature/fh_pfl_matrix.md) and a [literature review](literature/review.md). The closest prior work is FedAP (a fixed similarity matrix from data statistics, a self-weight and private layers) and HeurFedAMP (a self-weight plus a softmax over the other clients). FH-PFL is therefore framed as a FedAP-style aggregation with an economic-profile similarity input, used to test a hypothesis. It is not a new algorithm. It is not implemented. Then the semester review (#22).
+1. FH-PFL (#21) has a [draft definition](methods/fh_pfl.md) with a pre-stated decision rule, a [literature matrix](literature/fh_pfl_matrix.md) and a [literature review](literature/review.md). The closest prior work is FedAP (a fixed similarity matrix from data statistics, a self-weight and private layers) and HeurFedAMP (a self-weight plus a softmax over the other clients). FH-PFL is therefore framed as a FedAP-style aggregation with an economic-profile similarity input, used to test a hypothesis. It is not a new algorithm. It is not implemented.
+
+   A second design, [FH-PFL v2, federated top-down shares](methods/fh_pfl_v2.md), is implemented and scored on validation. Its federation claim failed: coupling during training was worse than independent shares in all three seeds (255.9 against 240.1 crore). Its share-based ablations come within 12 crore of SARIMA (228.1), mostly because of the public national anchor. See the [validation note](experiments/2026-10-30-fh-pfl-v2-validation.md).
+
+   Then the semester review (#22).
 2. Ablations of personalization, lag length and the extra series (#26). Another pass over the test year is not one of those ablations.
 3. Original-release vintages, if a real-time claim is going to be made. Until then the 45-day assumption stays in every table.

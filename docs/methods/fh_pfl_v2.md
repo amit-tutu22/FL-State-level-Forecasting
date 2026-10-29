@@ -1,6 +1,6 @@
 # FH-PFL v2 — federated top-down shares (specification, #21)
 
-> **Status: specification agreed on 30 October 2026. Not yet scored.** This is a second design, separate from the [FH-PFL v1 draft](fh_pfl.md), which is unchanged. It is a proposed design, not an established or validated algorithm.
+> **Status: specification agreed on 30 October 2026. Implemented in `fl_experiment/shares.py`, with the Flower path in `fl_experiment/shares_flower.py`. Scored on the validation origins: the federation claim is not supported. v2 is worse than independent shares (A1) and post-hoc normalisation (A2) in all three seeds; see [the validation note](../experiments/2026-10-30-fh-pfl-v2-validation.md).** This is a second design, separate from the [FH-PFL v1 draft](fh_pfl.md), which is unchanged. It is a proposed design, not an established or validated algorithm.
 >
 > **Prior work, and what may be claimed.** The first v2 idea, coherence constraints solved by ADMM, turned out to be the mechanism of Tan et al. (2021). That idea was dropped; see the [literature review](../literature/review.md#hierarchical-coherence-novelty-check-for-fh-pfl-v2). This design is the top-down approach instead: forecast the total, then split it with forecast proportions.
 >
