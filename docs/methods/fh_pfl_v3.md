@@ -2,7 +2,13 @@
 
 > **Status: choices agreed on 30 October 2026 (see the end of this file). Formalized in [fh_pfl_v3_methodology.md](fh_pfl_v3_methodology.md). Not implemented, not scored.** This design is separate from [v1](fh_pfl.md) and [v2](fh_pfl_v2.md), which are unchanged.
 >
-> **Prior work.** Fitting a linear time-series model and training a neural network on its residuals is the classical hybrid of Zhang (2003, *Neurocomputing* 50:159–175), and many papers followed it. The federated, personalized version has **not been searched for yet**. Until that search is done, nothing about this design may be called new. At most it is "an ARIMA–neural residual hybrid trained with personalized FL across Indian states".
+> **Prior work.** Fitting a linear time-series model and training a neural network on its residuals is the classical hybrid of Zhang (2003, *Neurocomputing* 50:159–175).
+>
+> The federated version already exists. Allassak, Trichni and Omary (*Int. J. Adv. Manuf. Technol.*, 2026) fit ARIMAX locally on each client and federate the residual LSTM with FedAvg in Flower. That is ablation B2 here.
+>
+> v3 adds four things: APFL personalization, a log-ratio residual, per-state shrinkage and rolling origins. It is an extension, and may be called at most "a personalized federated ARIMA–neural residual hybrid applied to Indian state GST". See the [review](../literature/review.md#statistical-plus-neural-residual-hybrids-novelty-check-for-fh-pfl-v3).
+>
+> On national Indian GST, Thayyib et al. (2023) found that ARIMA–neural residual hybrids did not beat Theta-TBATS.
 
 ## Idea
 
@@ -93,7 +99,7 @@ No hyperparameter is searched. Everything is the frozen selection, except the ch
 3. **Inputs:** GST, E-Way Bills and the SARIMA log-forecast column, with no CPI. B4 is the GST-only ablation.
 4. **Federated rule:** the frozen APFL rule. B1 (local) and B2 (FedAvg) are the ablations.
 
-Before implementation: run a literature search for federated or personalized hybrid statistical-plus-neural residual forecasting.
+The literature search was done on 30 October 2026 (see the Prior work note at the top).
 
 ## Implementation outline (after agreement)
 

@@ -261,6 +261,50 @@ Searched on 30 October 2026 for "federated forecast reconciliation", "federated 
 - **Evidence:** Labour, Traffic, Tourism, Tourism-L and Wiki, 5 runs. It has the best CRPS on most datasets against MinT, ERM and PERMBU-MinT.
 - **For FH-PFL v2:** the centralized end-to-end counterpart. It needs all series in one model, so it is not federated.
 
+## Statistical-plus-neural residual hybrids (novelty check for FH-PFL v3)
+
+Searched on 30 October 2026 for "federated hybrid ARIMA LSTM residual", "federated residual correction of a statistical baseline" and "tax revenue hybrid SARIMA neural network residual". The v3 idea has four parts:
+- a per-state statistical model;
+- a neural network trained on its residuals;
+- federated, personalized training of that network;
+- per-state shrinkage of the correction.
+
+### Allassak, Trichni and Omary — the closest match
+
+*Federated hybrid ARIMAX-LSTM for collaborative fan fault prognostics: a cement plant case study.* The International Journal of Advanced Manufacturing Technology, published January 2026. Preprint: Research Square, doi:10.21203/rs.3.rs-7033228/v1. Read in full from the preprint. The journal version was not available.
+
+- **Method:**
+  - Each client fits an ARIMAX(2,1,2) on its own data with exogenous sensor inputs.
+  - An LSTM is trained locally on that client's ARIMAX residuals.
+  - Only the LSTM is federated: 5 local epochs, FedAvg in Flower, 10 rounds.
+  - The forecast is the ARIMAX output plus the LSTM residual forecast.
+- **Evidence:**
+  - Three industrial fans, about 4,600 hourly samples each in 2023, with a chronological 80:20 split.
+  - The hybrid beats standalone ARIMAX, LSTM and XGBoost.
+  - The federated model is close to the centralized hybrid: R² 0.983 against 0.988.
+  - One run, no seeds. Hyperparameters were grid-searched without a stated separate validation split.
+- **For FH-PFL v3:** this is v3's ablation B2, a FedAvg residual network on a local statistical base.
+- **What v3 changes:**
+  - APFL personalization;
+  - a scale-free log-ratio residual;
+  - per-state shrinkage chosen on a holdout that the base model's parameters have not seen;
+  - rolling origins.
+
+  These are variations. v3 must be presented as an application and extension of this design to Indian state GST, not as a new method.
+
+### Other entries
+
+- **Federated hybrid carbon-emission forecasting (arXiv 2606.22618), method section checked:**
+  - Fourteen country clients.
+  - ARIMA trend and GARCH volatility outputs are used as *input features* to an LSTM-attention plus XGBoost model, trained with FedAvg.
+  - The statistical models are feature generators. Nothing models their residuals.
+- **FedRes, Federated Residual Learning (arXiv 2003.12880), abstract and introduction read:** the prediction is the sum of a shared global model and a personal local model, each learning against the other's residual. The residual idea is generic. There is no statistical base.
+- **FedRMamba (doi:10.1145/3774904.3792712) and FedRSA (IEEE Access 2026, doi:10.1109/access.2026.3680223), abstracts only:**
+  - FedRMamba is personalized FL with a shared low-frequency path plus local high-frequency residuals.
+  - FedRSA injects client-specific seasonal residual signals into a shared backbone.
+  - Both are neural decompositions, not a statistical model plus a neural correction.
+- **Thayyib et al. (2023), already in the matrix:** results checked again. On national monthly Indian GST, ARIMA–ANN and ARIMA–NNAR residual hybrids did **not** beat Theta-TBATS. That is direct domain evidence against expecting a large gain from v3.
+
 ## Entries read earlier
 
 FedAvg, FedProx, APFL and FedRep, together with FedAMP, FedFomo, pFedGraph and SFL, are summarised in the matrix. Their update rules were checked against the papers' equations or method sections on 29 October 2026.

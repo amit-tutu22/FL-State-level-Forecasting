@@ -3,7 +3,7 @@
 > This is the formal version of the [v3 specification](fh_pfl_v3.md), written for the methodology chapter.
 > - It defines the method and proves four elementary properties.
 > - It does **not** prove that v3 beats SARIMA or reaches any RMSE. No such result is available, and the chapter must not imply one.
-> - v3 is not implemented or scored. Its relation to the classical ARIMA–neural hybrid (Zhang, 2003) is stated in the spec, and the federated literature search is still to be done.
+> - Prior work: v3 extends the classical ARIMA–neural hybrid (Zhang, 2003) and its federated FedAvg form (Allassak, Trichni and Omary, 2026), which is ablation B2 here. See the spec.
 
 ## 1. Setting and notation
 
@@ -134,6 +134,7 @@ None of these claims follows from Sections 2–6. Each one is an empirical resul
 
 ## References
 
+- Allassak, N., Trichni, S., and Omary, F. (2026). Federated hybrid ARIMAX-LSTM for collaborative fan fault prognostics: a cement plant case study. *The International Journal of Advanced Manufacturing Technology*. Preprint doi:10.21203/rs.3.rs-7033228/v1.
 - Deng, Y., Kamani, M. M., and Mahdavi, M. (2020). Adaptive personalized federated learning. arXiv:2003.13461.
 - Zhang, G. P. (2003). Time series forecasting using a hybrid ARIMA and neural network model. *Neurocomputing*, 50, 159–175.
 - Box, G. E. P., Jenkins, G. M., Reinsel, G. C., and Ljung, G. M. (2015). *Time Series Analysis: Forecasting and Control* (5th ed.). Wiley. Source for SARIMA and Kalman-filter one-step prediction.

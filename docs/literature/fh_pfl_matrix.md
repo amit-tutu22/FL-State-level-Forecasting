@@ -64,6 +64,16 @@ Every part already exists in published work. The closest single method is FedAP.
 | CoRe — Cristian et al., 2025 (arXiv 2502.15983) | Centralized network with a final-layer coherence regularizer | A coherence penalty during training helps on small data; too much hurts | Full text read |
 | Rangapuram et al., ICML 2021 | Centralized DeepVAR with projection onto the coherent subspace inside training | End-to-end coherent training, not federated | Method checked |
 
+## Statistical-plus-neural residual hybrids (prior work for FH-PFL v3)
+
+| Work | Setting | Relevance | Status |
+|---|---|---|---|
+| Zhang, Neurocomputing 50, 2003 | ARIMA, then a neural network on its residuals, centralized | The classical hybrid that v3 builds on | Known reference |
+| Allassak, Trichni and Omary, Int. J. Adv. Manuf. Technol. 2026 (preprint doi:10.21203/rs.3.rs-7033228/v1) | Local ARIMAX per client; LSTM on its residuals federated with FedAvg in Flower; 3 clients | **Same mechanism as v3's FedAvg ablation (B2).** v3 adds APFL, log-ratio residuals, per-state shrinkage and rolling origins. It is an extension, not a new method | Full text read (preprint) |
+| Federated hybrid carbon-emission forecasting (arXiv 2606.22618) | ARIMA and GARCH outputs as input features to a FedAvg LSTM plus XGBoost | Statistical models used as features, not as a base with residual correction | Method checked |
+| FedRes (arXiv 2003.12880) | Global plus local model, each fitted to the other's residual | Generic residual split, with no statistical base | Abstract and introduction |
+| FedRMamba (doi:10.1145/3774904.3792712); FedRSA (doi:10.1109/access.2026.3680223) | Personalized FL with shared and local, or seasonal-residual, neural paths | Neural decompositions only | Abstract only |
+
 ## Revenue and economic forecasting
 
 | Work | Setting | Relevance | Status |
