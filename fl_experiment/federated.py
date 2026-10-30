@@ -117,26 +117,37 @@ def alpha_gradient(  # pylint: disable=too-many-arguments,too-many-positional-ar
     return dot
 
 
+def decode_crore(normalized, y_mean, y_std, base=None):
+    """Normalized log target to INR crore.
+
+    Level models predict log1p(y). Residual models (FH-PFL v3) predict
+    log(y / base), where `base` is the SARIMA forecast for the same months.
+    """
+    values = np.asarray(normalized, dtype=float).reshape(-1) * y_std + y_mean
+    if base is None:
+        return np.expm1(values)
+    return np.asarray(base, dtype=float).reshape(-1) * np.exp(values)
+
+
 def predict_crore(  # pylint: disable=too-many-arguments,too-many-positional-arguments
-        parameters, inputs, y_mean, y_std, n_features, settings):
+        parameters, inputs, y_mean, y_std, n_features, settings, base=None):
     """Decode one normalized block back to INR crore."""
     model = _new_model(n_features, settings)
     load_parameters(model, parameters)
     model.eval()
     with torch.no_grad():
         normalized = model(torch.from_numpy(inputs)).numpy().reshape(-1)
-    return np.expm1(normalized * y_std + y_mean)
+    return decode_crore(normalized, y_mean, y_std, base)
 
 
 def client_holdout_rmse(parameters, client, n_features, settings):
     """One state's holdout RMSE in INR crore."""
+    base = client.get("base_early")
     predicted = predict_crore(
         parameters, client["early_stop"][0], client["y_mean"], client["y_std"],
-        n_features, settings,
+        n_features, settings, base,
     )
-    actual = np.expm1(
-        client["early_stop"][1].reshape(-1) * client["y_std"] + client["y_mean"]
-    )
+    actual = decode_crore(client["early_stop"][1], client["y_mean"], client["y_std"], base)
     return regression_metrics(actual, predicted)["rmse"]
 
 
@@ -144,7 +155,7 @@ def client_origin_prediction(parameters, client, n_features, settings):
     """One state's forecast for its origin month, in INR crore."""
     predicted = predict_crore(
         parameters, client["origin"][0], client["y_mean"], client["y_std"],
-        n_features, settings,
+        n_features, settings, client.get("base_origin"),
     )
     return float(predicted[0])
 
@@ -227,6 +238,7 @@ def run_origin(clients, settings, job):
         "rounds_run": rounds_run,
         "selected_round": best["round"],
         "alphas": best["alphas"],
+        "params": best["params"],
     }
     return rows, info
 

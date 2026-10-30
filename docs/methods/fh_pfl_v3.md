@@ -1,6 +1,6 @@
 # FH-PFL v3 — federated personalized residual correction of SARIMA (draft specification, #21)
 
-> **Status: choices agreed on 30 October 2026 (see the end of this file). Formalized in [fh_pfl_v3_methodology.md](fh_pfl_v3_methodology.md). Not implemented, not scored.** This design is separate from [v1](fh_pfl.md) and [v2](fh_pfl_v2.md), which are unchanged.
+> **Status: implemented (`fl_experiment/residual.py`, `run_residual.py`) and scored on validation on 30 October 2026. Claim 1, "residual correction beats SARIMA", was not supported: 235.7 ± 4.0 against 228.1 crore, worse in 3 of 3 seeds ([note](../experiments/2026-10-30-fh-pfl-v3-validation.md)).** Formalized in [fh_pfl_v3_methodology.md](fh_pfl_v3_methodology.md). This design is separate from [v1](fh_pfl.md) and [v2](fh_pfl_v2.md), which are unchanged.
 >
 > **Prior work.** Fitting a linear time-series model and training a neural network on its residuals is the classical hybrid of Zhang (2003, *Neurocomputing* 50:159–175).
 >
@@ -100,6 +100,15 @@ No hyperparameter is searched. Everything is the frozen selection, except the ch
 4. **Federated rule:** the frozen APFL rule. B1 (local) and B2 (FedAvg) are the ablations.
 
 The literature search was done on 30 October 2026 (see the Prior work note at the top).
+
+### Implementation details fixed before the validation run
+
+These were fixed in code before the 3-seed run. A 2-origin, 1-seed smoke run checked only that the code ran and that B0 reproduces the saved SARIMA predictions (to within 5e-5 crore). Nothing was changed after it.
+
+- **SARIMA column.** The column holds \(\log \hat y^{S}\) for the *target* month, repeated at all 6 window steps. That value is known before the target month. Using each step's own SARIMA prediction instead would need 5 more months of filtered predictions and cost about 5 fit targets per state.
+- **Ridge (B3).** Penalty fixed at 1 on the per-state standardized last-step inputs, with an unpenalized intercept, and the same λ selection as v3. Nothing is searched.
+- **B1 (local).** Uses the local GRU protocol: up to 500 epochs, early stopping on the holdout with patience 30, and seed + state index.
+- **No residual fit.** A state with no usable residual fit at an origin gets the plain SARIMA forecast, tagged `no_residual_fit`. A fit is unusable when a holdout month's filtered SARIMA prediction, or the forecast itself, is not positive, so the log ratio is undefined. In the validation run this happened at 9 of the 384 origins, all of them Lakshadweep (about 1–3 crore a month).
 
 ## Implementation outline (after agreement)
 

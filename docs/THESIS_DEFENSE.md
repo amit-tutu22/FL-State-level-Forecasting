@@ -181,6 +181,13 @@ GST history alone beat GST plus E-Way Bills plus CPI (446.9 against 470.4). FedP
 
    A second design, [FH-PFL v2, federated top-down shares](methods/fh_pfl_v2.md), is implemented and scored on validation. Its federation claim failed: coupling during training was worse than independent shares in all three seeds (255.9 against 240.1 crore). Its share-based ablations come within 12 crore of SARIMA (228.1), mostly because of the public national anchor. See the [validation note](experiments/2026-10-30-fh-pfl-v2-validation.md).
 
+   A third design, [FH-PFL v3](methods/fh_pfl_v3.md), keeps each state's SARIMA forecast. A personalized federated GRU (APFL) learns a shrunk multiplicative correction from SARIMA's log errors. It did not beat SARIMA on validation: 235.7 ± 4.0 against 228.1 crore, worse in all three seeds. The closest variant was GST-only, at 230.9.
+   - Among the residual models, APFL beat local training and ridge in 3 of 3 seeds. Holdout shrinkage beat full correction in 3 of 3.
+   - None of these is a usable result, because SARIMA alone is better.
+   - The federated residual mechanism itself is prior work (Allassak et al., 2026).
+
+   See the [v3 validation note](experiments/2026-10-30-fh-pfl-v3-validation.md).
+
    Then the semester review (#22).
 2. Ablations of personalization, lag length and the extra series (#26). Another pass over the test year is not one of those ablations.
 3. Original-release vintages, if a real-time claim is going to be made. Until then the 45-day assumption stays in every table.

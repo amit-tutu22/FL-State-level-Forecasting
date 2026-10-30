@@ -11,21 +11,14 @@ the ablations are always in-process. Scoring the test year is a second look
 and needs `--second-look`. See docs/methods/fh_pfl_v2.md.
 """
 
-import argparse
-import json
-import logging
-import time
 from pathlib import Path
 
 import numpy as np
-import torch
 
 from fl_experiment.baselines import GRIDS
-from fl_experiment.evaluate_test import add_second_look_arguments, frozen_folds, settings_from
-from fl_experiment.folds import protocol_hash
-from fl_experiment.local_gru import compute_info
-from fl_experiment.reporting import model_summaries, summarize_rows, write_json, write_rows
+from fl_experiment.reporting import model_summaries, summarize_rows
 from fl_experiment.rolling import origin_months, states_for_month
+from fl_experiment.runner import base_record, finish_run, seed_plans, start_run, variant_arguments
 from fl_experiment.shares import (
     ANCHOR_FALLBACK,
     MODEL_NAMES,
@@ -37,25 +30,9 @@ from fl_experiment.shares import (
     top_down_rows,
     trained_rows,
 )
-from fl_experiment.state_data import add_data_arguments
 
 RESULTS = Path(__file__).resolve().parent / "results"
 RIVALS = ("a1", "a2")
-
-
-def parse_args():
-    """Parse the FH-PFL v2 options. There is no hyperparameter grid."""
-    parser = argparse.ArgumentParser(description=__doc__)
-    add_data_arguments(parser)
-    add_second_look_arguments(parser)
-    parser.add_argument("--variants", nargs="+", default=list(TRAINED), choices=list(TRAINED))
-    parser.add_argument("--engine", choices=("in_process", "flower"), default="in_process")
-    parser.add_argument("--order-grid", choices=sorted(GRIDS), default="full")
-    parser.add_argument("--maxiter", type=int, default=50)
-    parser.add_argument("--seeds", type=int, nargs="+", help="default: the frozen seeds")
-    parser.add_argument("--limit-origins", type=int, help="smoke tests only")
-    parser.add_argument("--output-dir", type=Path)
-    return parser.parse_args()
 
 
 def _flower_rows(clients, settings, anchor, cache):
@@ -137,7 +114,8 @@ def _groups(folds, split, limit):
     return groups
 
 
-def _run(args, folds, selection, output):
+def _run(args, run):
+    folds = run["folds"]
     groups = _groups(folds, args.split, args.limit_origins)
     protocol = folds["protocol"]
     print(f"{len(groups)} origins, {len(next(iter(groups.values())))} states", flush=True)
@@ -146,27 +124,22 @@ def _run(args, folds, selection, output):
         args.maxiter,
     )
     print(f"national SARIMA order {order['order']} {order['seasonal_order']}", flush=True)
-    seeds = args.seeds or selection["seeds"]
+    seeds = args.seeds or run["selection"]["seeds"]
     rows, rounds = top_down(groups, anchors, folds, seeds), {}
-    for kind in args.variants:
-        for seed in seeds:
-            print(f"{MODEL_NAMES[kind]} seed {seed}", flush=True)
-            plan = {
-                "kind": kind, "engine": args.engine, "cache": output / "cache",
-                "settings": settings_from(selection, seed),
-            }
-            batch, rounds[f"{kind}-{seed}"] = variant_rows(plan, groups, anchors, folds)
-            rows.extend(batch)
+    for kind, plan in seed_plans(args, run, MODEL_NAMES):
+        seed = plan["settings"]["seed"]
+        batch, rounds[f"{kind}-{seed}"] = variant_rows(plan, groups, anchors, folds)
+        rows.extend(batch)
     return rows, {"rounds": rounds, "anchors": anchors, "national_order": order}
 
 
-def _record(args, folds, selection, rows, extra):  # pylint: disable=too-many-arguments,too-many-positional-arguments
+def main():
+    """Run FH-PFL v2 and its ablations with the frozen settings, and write the record."""
+    args = variant_arguments(__doc__, TRAINED)
+    run = start_run(args, RESULTS / f"fh-pfl-v2-{args.split}")
+    rows, extra = _run(args, run)
     record = {
-        "split": args.split,
-        "second_look": args.split == "test",
-        "engine": args.engine,
-        "protocol_hash": protocol_hash(folds),
-        "selection": selection,
+        **base_record(args, run),
         "anchor_fallbacks": sum(item["fallback"] for item in extra["anchors"].values()),
         **model_summaries(rows),
         **extra,
@@ -174,30 +147,7 @@ def _record(args, folds, selection, rows, extra):  # pylint: disable=too-many-ar
     runs = summarize_rows(rows)
     if MODEL_NAMES["v2"] in runs and all(MODEL_NAMES[key] in runs for key in RIVALS):
         record["decision"] = decision(runs)
-    return record
-
-
-def main():
-    """Run FH-PFL v2 and its ablations with the frozen settings, and write the record."""
-    args = parse_args()
-    started = time.perf_counter()
-    selection, folds = frozen_folds(args)
-    torch.set_num_threads(1)
-    if args.engine == "flower":
-        logging.getLogger("flwr").setLevel(logging.WARNING)
-    output = args.output_dir or RESULTS / f"fh-pfl-v2-{args.split}"
-    output.mkdir(parents=True, exist_ok=True)
-    rows, extra = _run(args, folds, selection, output)
-    record = _record(args, folds, selection, rows, extra)
-    record["compute"] = compute_info(started)
-    write_rows(output / "predictions.csv", rows)
-    write_json(output / "metrics.json", record)
-    for name, summary in sorted(record["summaries"].items()):
-        rmse = summary["rmse_equal_state"]
-        print(f"{name}: equal-state RMSE {rmse['mean']:.1f} ± {rmse['std']:.1f}", flush=True)
-    if "decision" in record:
-        print(json.dumps(record["decision"], indent=2), flush=True)
-    print(f"Wrote {output / 'metrics.json'}", flush=True)
+    finish_run(run, rows, record)
 
 
 if __name__ == "__main__":

@@ -24,6 +24,7 @@ from fl_experiment.model import RevenueModel
 from fl_experiment.state_data import load_cached_client
 
 BLOCKS = ("fit", "early_stop", "origin")
+BASES = ("base_early", "base_origin")
 
 
 class StateClient(fl.client.NumPyClient):
@@ -88,6 +89,9 @@ def write_origin_cache(clients, directory, settings, job):
         arrays = {}
         for block in BLOCKS:
             arrays[f"{block}_x"], arrays[f"{block}_y"] = client[block]
+        for key in BASES:
+            if key in client:
+                arrays[key] = np.asarray(client[key], dtype=float)
         np.savez(directory / f"client_{index}.npz", **arrays)
         states.append({
             key: client[key]
@@ -106,6 +110,9 @@ def load_origin_cache(directory, partition_id):
     with np.load(directory / f"client_{partition_id}.npz") as arrays:
         for block in BLOCKS:
             client[block] = (arrays[f"{block}_x"], arrays[f"{block}_y"])
+        for key in BASES:
+            if key in arrays:
+                client[key] = arrays[key]
     return client, manifest["settings"], manifest["job"]
 
 

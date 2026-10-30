@@ -2,7 +2,7 @@
 
 > This is the formal version of the [v3 specification](fh_pfl_v3.md), written for the methodology chapter.
 > - It defines the method and proves four elementary properties.
-> - It does **not** prove that v3 beats SARIMA or reaches any RMSE. No such result is available, and the chapter must not imply one.
+> - It does **not** prove that v3 beats SARIMA or reaches any RMSE, and the chapter must not imply one. On validation v3 did not beat SARIMA (235.7 against 228.1 crore; [note](../experiments/2026-10-30-fh-pfl-v3-validation.md)).
 > - Prior work: v3 extends the classical ARIMA–neural hybrid (Zhang, 2003) and its federated FedAvg form (Allassak, Trichni and Omary, 2026), which is ablation B2 here. See the spec.
 
 ## 1. Setting and notation
