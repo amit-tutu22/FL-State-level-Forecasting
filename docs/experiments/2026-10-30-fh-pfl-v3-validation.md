@@ -68,7 +68,24 @@ The selected round ranged from 1 to 20.
 
 ## Flower agreement
 
-See below. It is added when the Flower run finishes.
+v3's federated model, scored with full correction (B5, \(\lambda_i = 1\)), was also run through the existing Flower APFL clients. There was one simulation per origin and seed, with a wall time of 556 seconds.
+
+```
+python -m fl_experiment.run_residual --split val --engine flower --variants v3 ...
+```
+
+| Path | Equal-state RMSE | By seed |
+|---|---:|---|
+| Flower | 241.5 ± 6.7 | 243.4 / 247.0 / 234.0 |
+| In-process | 239.9 ± 5.3 | 243.1 / 242.8 / 233.8 |
+
+- Seeds 0 and 2 agree to within 0.3 crore. Seed 1 differs by 4.2 crore.
+- The two paths differ only in dropout random numbers. At dropout 0 they match to `rtol 1e-5` (`fl_experiment/tests/test_residual_flower.py`).
+- Either way, B5 is worse than SARIMA.
+
+Unlike v2, which uploads only per-month scalars, v3 is ordinary weight-sharing FL. Each client uploads its GRU weights every round. The SARIMA fits and residuals never leave the client.
+
+\(\lambda_i\) was not run through Flower. It is chosen locally on each state's holdout, after training, so it needs no communication.
 
 ## What this does not say
 
